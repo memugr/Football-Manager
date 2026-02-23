@@ -1,9 +1,97 @@
+import java.util.Date;
+
 /**
- * Classe persona
+ * Classe Persona
  *
  * @author Mei
  * @version 1.0
  */
 
-public class Persona {
+public abstract class Persona {
+    //Atributs
+    /**
+     * Nom persona
+     */
+    protected String nom;
+    /**
+     * Cognom persona
+     */
+    protected String cognom;
+    /**
+     * Data de naixement
+     */
+    protected Date dataNaixement;
+    /**
+     * Nivell de motivació
+     */
+    protected double nivellMotivacio;
+    /**
+     * Sou anual de la persona
+     */
+    protected double souAnual;
+
+    /**
+     * Constructor de Persona on el seu nivell per definició és de 5
+     * @param nom
+     * @param cognom
+     * @param dataNaixement
+     * @param souAnual
+     */
+    public Persona(String nom, String cognom, Date dataNaixement, double souAnual) {
+        this.nom = nom;
+        this.cognom = cognom;
+        this.dataNaixement = dataNaixement;
+        this.nivellMotivacio = 5;
+        this.souAnual = souAnual;
+    }
+
+    //Getters
+    public String getNom() {
+        return nom;
+    }
+
+    public String getCognom() {
+        return cognom;
+    }
+
+    public Date getDataNaixement() {
+        return dataNaixement;
+    }
+
+    public double getNivellMotivacio() {
+        return nivellMotivacio;
+    }
+
+    public double getSouAnual() {
+        return souAnual;
+    }
+
+    //Setters: nom, cognom i data de naixement no poden ser modificables
+    public void setSouAnual(double souAnual) {
+        this.souAnual = souAnual;
+    }
+
+    //Mètodes
+    /**
+     * Mètode entrenament que augmenta la motivació en 0.2 punts
+     */
+    public void entrenament() {
+        if (this.nivellMotivacio + 0.2 <= 10) {
+            this.nivellMotivacio += 0.2;
+        }
+    }
+
+    /**
+     * Mètode toStirng de Persona
+     * @return Informació de la persona
+     */
+    @Override
+    public String toString() {
+        return "Persona:" + '\n' +
+                "Nom: " + nom + '\n' +
+                "Cognom: " + cognom + '\n' +
+                "Data Naixement: " + dataNaixement + '\n' +
+                "Nivell de motivació: " + nivellMotivacio + '\n' +
+                "Sou Anual: " + souAnual;
+    }
 }
