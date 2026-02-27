@@ -40,6 +40,6 @@ public class Main {
                 "\n6. Disputar nova lliga." +
                 "\n7. Realitzar sessió d'entrenament (del mercat de fitxatges)." +
                 "\n8. Desar dades dels equips." +
-                "\n9. Sortir.");
+                "\n0. Sortir.");
     }
 }

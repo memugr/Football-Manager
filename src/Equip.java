@@ -1,3 +1,13 @@
+/**
+ * Classe Equip. Mostra la informació de cada equip.
+ *
+ * Cada equip té un entrenador i un llistat de jugadors/es.
+ *
+ * Es calcula la qualitat mitjana dels equips, en base la qualitat dels jugadors.
+ *
+ * @author Abigail
+ * @version 1.0
+ */
 public class Equip {
 
     private String nom, ciutat, nomEstadi, nomPresident;
@@ -9,6 +19,14 @@ public class Equip {
         this.nom = nom;
     }
 
+    /**
+     * Constructor amb paràmetres:
+     * @param anyFundacio
+     * @param nomPresident
+     * @param nomEstadi
+     * @param ciutat
+     * @param nom
+     */
     public Equip(int anyFundacio, String nomPresident, String nomEstadi, String ciutat, String nom) {
         this.anyFundacio = anyFundacio;
         this.nomPresident = nomPresident;
@@ -16,6 +34,19 @@ public class Equip {
         this.ciutat = ciutat;
         this.nom = nom;
     }
+
+    /**
+     * Constructor amb paràmetres:
+     * @param nom
+     * @param ciutat
+     * @param anyFundacio
+     */
+    public Equip(String nom, String ciutat, int anyFundacio) {
+        this.nom = nom;
+        this.ciutat = ciutat;
+        this.anyFundacio = anyFundacio;
+    }
+
 
     public String getNom() {
         return nom;
@@ -57,7 +88,10 @@ public class Equip {
         this.anyFundacio = anyFundacio;
     }
 
-
+    /**
+     * Mètode toString.
+     * @return: informació de cada equip.
+     */
     @Override
     public String toString() {
         return "----------\nDades d'equip\n" +
