@@ -12,6 +12,7 @@ public class Equip {
 
     private String nom, ciutat, nomEstadi, nomPresident;
     private int anyFundacio;
+    private boolean donatAlta = false;
 
     public Equip() {}
 
@@ -88,6 +89,14 @@ public class Equip {
         this.anyFundacio = anyFundacio;
     }
 
+    public boolean isDonatAlta() {
+        return donatAlta;
+    }
+
+    public void setDonatAlta(boolean donatAlta) {
+        this.donatAlta = donatAlta;
+    }
+
     /**
      * Mètode toString.
      * @return: informació de cada equip.
@@ -114,7 +123,5 @@ public class Equip {
     public void destituirEntrenador (){}
 
     public void modificarPresident (){}
-
-
 
 }
