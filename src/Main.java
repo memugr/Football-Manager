@@ -7,10 +7,9 @@ public class Main {
         carregarFitxatges();
 
         int opcioUser = getOpcio();
-
         switch (opcioUser) {
             case 1:
-                menuAdmin();
+                mostrarMenuAdmin();
                 break;
             case 2:
                 menuGestor();
@@ -22,7 +21,7 @@ public class Main {
         System.out.println("Benvingut al Politècnics Football Manager, Gestor d'Equips.");
     }
 
-    public static void menuAdmin() {
+    public static void mostrarMenuAdmin() {
         System.out.println("Benvingut al Politècnics Football Manager, Admin.");
         System.out.println("Escull una opció: ");
         System.out.println("-----\nMenú:\n-----");
@@ -35,7 +34,6 @@ public class Main {
                 "\n7. Realitzar sessió d'entrenament (del mercat de fitxatges)." +
                 "\n8. Desar dades dels equips." +
                 "\n0. Sortir.");
-
     }
 
     public static int getOpcio() {
@@ -59,6 +57,5 @@ public class Main {
         return opcio;
     }
 
-    private static void carregarFitxatges() {
-    }
+    private static void carregarFitxatges() {}
 }
