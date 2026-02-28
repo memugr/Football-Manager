@@ -1,34 +1,28 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        preguntarUsuario();
-
-        int opcio = sc.nextInt();
-
-        if (opcio == 1) {
-            do {
-                mostrarMenu();
-                switch (opcio) {
-                    case 1:
-
-                }
-
-            } while (opcio != 0);
-        }else if (opcio == 2) {
-
-        }
-
-    }
-
-    private static void preguntarUsuario() {
         System.out.println("--------------------\n  Football Manager\n--------------------");
-        System.out.println("Ets administrador(1) o gestor d'equips(2)?");
+        carregarFitxatges();
+
+        int opcioUser = getOpcio();
+
+        switch (opcioUser) {
+            case 1:
+                menuAdmin();
+                break;
+            case 2:
+                menuGestor();
+                break;
+        }
     }
 
-    private static void mostrarMenu() {
+    public static void menuGestor() {
+        System.out.println("Benvingut al Politècnics Football Manager, Gestor d'Equips.");
+    }
+
+    public static void menuAdmin() {
         System.out.println("Benvingut al Politècnics Football Manager, Admin.");
         System.out.println("Escull una opció: ");
         System.out.println("-----\nMenú:\n-----");
@@ -41,5 +35,30 @@ public class Main {
                 "\n7. Realitzar sessió d'entrenament (del mercat de fitxatges)." +
                 "\n8. Desar dades dels equips." +
                 "\n0. Sortir.");
+
+    }
+
+    public static int getOpcio() {
+        Scanner sc = new Scanner(System.in);
+        int opcio = -1;
+
+        do {
+            try {
+                System.out.print("Ets administrador (1) o gestor d'equip (2)? ");
+                opcio = sc.nextInt();
+
+                if (opcio < 1 || opcio > 2) {
+                    System.out.println("Opció invàlida");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Caràcter invàlid, només números!");
+                sc.nextLine();
+            }
+        } while (opcio < 1 || opcio > 2);
+
+        return opcio;
+    }
+
+    private static void carregarFitxatges() {
     }
 }
