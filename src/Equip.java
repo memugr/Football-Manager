@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Classe Equip. Mostra la informació de cada equip.
  *
@@ -10,9 +12,26 @@
  */
 public class Equip {
 
-    private String nom, ciutat, nomEstadi, nomPresident;
+    private String nom, ciutat, nomEstadi, nomPresident, nouPresident;
     private int anyFundacio;
     private boolean donatAlta = false;
+    private double qualitatMitjaEquip;
+
+    private ArrayList<Jugador> jugadors = new ArrayList<>();
+
+    public Equip(ArrayList<Jugador> jugadors){
+        this.jugadors = jugadors;
+    }
+
+    private Entrenador entrenador;
+
+    public Entrenador getEntrenador() {
+        return entrenador;
+    }
+
+    public void setEntrenador(Entrenador entrenador) {
+        this.entrenador = entrenador;
+    }
 
     public Equip() {}
 
@@ -112,16 +131,67 @@ public class Equip {
                 "\n----------";
     }
 
-    public void mostrarQualitatMitjana (){}
 
-    public void mostrarJugadors (){}
+    public void calcularMitjanaEquip ()  {
+        if (jugadors.isEmpty()) {
+            qualitatMitjaEquip = 0;
+            return;
+        }
+        double suma=0;
+        for (Jugador jugador : jugadors) {
+            suma += jugador.getQualitat();
+        }
+        qualitatMitjaEquip = suma/jugadors.size();
+    }
+
+    public void mostrarQualitatMitjana (){
+        if (qualitatMitjaEquip == 0 && jugadors.isEmpty()) {
+            System.out.println("Encara no s'ha calculat la qualitat mitjana de l'equip.");
+            return;
+        }
+        System.out.println("La qualitat mitjana de l'equip es " + Equip.this.nom + " és: " +  qualitatMitjaEquip);
+    }
+
+    public void mostrarJugadors (){
+        if  (jugadors.isEmpty()) {
+            System.out.println("Aquest equip encara no té jugadors.");
+            return;
+        }
+        System.out.println("Jugadors de l'equip " + this.nom + ":");
+        for(Jugador j : jugadors){
+            System.out.println(toString());
+        };
+    }
+
+    public void fitxarEntrenador (Entrenador entrenador) {
+        if (this.entrenador != null) {
+            System.out.println("Aquest equip ja té un entrenador: " + this.entrenador.getNom() + " " +
+                    this.entrenador.cognom);
+            return;
+        }
+        this.entrenador = entrenador;
+        System.out.println("S'ha fitxat l'entrenador " + this.entrenador.getNom() + " " +
+                this.entrenador.getCognom() + " per l'equip " + this.nom + ".");
+    }
 
     public void fitxarJugador (){}
 
-    public void fitxarEntrenador (){}
+    public void destituirEntrenador (){
+        if (this.entrenador == null) {
+            System.out.println("No hi ha cap entrenador assignat.");
+            return;
+        }
+        this.entrenador = null;
+        System.out.println("S'ha destituït a l'entrenador  " + this.entrenador.getNom() + " " + this.entrenador.getCognom() + ".");
+    }
 
-    public void destituirEntrenador (){}
-
-    public void modificarPresident (){}
-
+    public void modificarPresident (String president){
+        if (nomPresident == null || nomPresident.isEmpty()) {
+            System.out.println("No hi ha cap president assignat.");
+            return;
+        } else {
+            this.nomPresident = nouPresident;
+            System.out.println("El president " + nomPresident + " ha estat subsituït per " + nouPresident);
+        }
+    }
 }
