@@ -50,6 +50,24 @@ public class Jugador extends Persona {
         comptadorJugadors++;
     }
 
+    //Getters
+    public int getDorsal() {
+        return dorsal;
+    }
+
+    public String getPosicio() {
+        return posicio;
+    }
+
+    public double getQualitat() {
+        return qualitat;
+    }
+
+    //Setters
+    public void setDorsal(int dorsal) {
+        this.dorsal = dorsal;
+    }
+
     //Mètodes
     /**
      * Genera la qualitat del jugador
