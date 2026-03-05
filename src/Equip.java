@@ -12,18 +12,12 @@ import java.util.ArrayList;
  */
 public class Equip {
 
-    private String nom, ciutat, nomEstadi, nomPresident, nouPresident;
+    private String nom, ciutat, nomEstadi, nomPresident;
     private int anyFundacio;
     private boolean donatAlta = false;
     private double qualitatMitjaEquip;
-
-    private ArrayList<Jugador> jugadors = new ArrayList<>();
-
-    public Equip(ArrayList<Jugador> jugadors){
-        this.jugadors = jugadors;
-    }
-
     private Entrenador entrenador;
+    private ArrayList<Jugador> jugadors = new ArrayList<>();
 
     public Entrenador getEntrenador() {
         return entrenador;
@@ -32,8 +26,6 @@ public class Equip {
     public void setEntrenador(Entrenador entrenador) {
         this.entrenador = entrenador;
     }
-
-    public Equip() {}
 
     public Equip(String nom) {
         this.nom = nom;
@@ -135,43 +127,45 @@ public class Equip {
     public void calcularMitjanaEquip ()  {
         if (jugadors.isEmpty()) {
             qualitatMitjaEquip = 0;
-            return;
+        } else {
+            double suma = 0;
+            for (Jugador jugador : jugadors) {
+                suma += jugador.getQualitat();
+            }
+            qualitatMitjaEquip = suma/jugadors.size();
         }
-        double suma=0;
-        for (Jugador jugador : jugadors) {
-            suma += jugador.getQualitat();
-        }
-        qualitatMitjaEquip = suma/jugadors.size();
+
     }
 
-    public void mostrarQualitatMitjana (){
+    public void mostrarQualitatMitjana () {
         if (qualitatMitjaEquip == 0 && jugadors.isEmpty()) {
             System.out.println("Encara no s'ha calculat la qualitat mitjana de l'equip.");
-            return;
+        } else {
+            System.out.println("La qualitat mitjana de l'equip es " + Equip.this.nom + " és: " +  qualitatMitjaEquip);
         }
-        System.out.println("La qualitat mitjana de l'equip es " + Equip.this.nom + " és: " +  qualitatMitjaEquip);
+
     }
 
     public void mostrarJugadors (){
         if  (jugadors.isEmpty()) {
             System.out.println("Aquest equip encara no té jugadors.");
-            return;
+        } else {
+            System.out.println("Jugadors de l'equip " + this.nom + ":");
+            for(Jugador j : jugadors){
+                System.out.println(j.toString());
+            };
         }
-        System.out.println("Jugadors de l'equip " + this.nom + ":");
-        for(Jugador j : jugadors){
-            System.out.println(toString());
-        };
     }
 
     public void fitxarEntrenador (Entrenador entrenador) {
         if (this.entrenador != null) {
             System.out.println("Aquest equip ja té un entrenador: " + this.entrenador.getNom() + " " +
                     this.entrenador.cognom);
-            return;
+        } else {
+            this.entrenador = entrenador;
+            System.out.println("S'ha fitxat l'entrenador " + this.entrenador.getNom() + " " +
+                    this.entrenador.getCognom() + " per l'equip " + this.nom + ".");
         }
-        this.entrenador = entrenador;
-        System.out.println("S'ha fitxat l'entrenador " + this.entrenador.getNom() + " " +
-                this.entrenador.getCognom() + " per l'equip " + this.nom + ".");
     }
 
     public void fitxarJugador (){}
@@ -179,19 +173,21 @@ public class Equip {
     public void destituirEntrenador (){
         if (this.entrenador == null) {
             System.out.println("No hi ha cap entrenador assignat.");
-            return;
+        } else {
+            String nomEntrenador = this.entrenador.getNom() + " " + this.entrenador.getCognom();
+            this.entrenador = null;
+            System.out.println("S'ha destituït a l'entrenador " + nomEntrenador);
         }
-        this.entrenador = null;
-        System.out.println("S'ha destituït a l'entrenador  " + this.entrenador.getNom() + " " + this.entrenador.getCognom() + ".");
     }
 
-    public void modificarPresident (String president){
+    public void modificarPresident(String nouPresident) {
         if (nomPresident == null || nomPresident.isEmpty()) {
-            System.out.println("No hi ha cap president assignat.");
-            return;
+            System.out.println("Encara no hi havia president assignat.");
+        } else if (nomPresident.equals(nouPresident)) {
+            System.out.println("Ja és el president actual!");
         } else {
-            this.nomPresident = nouPresident;
-            System.out.println("El president " + nomPresident + " ha estat subsituït per " + nouPresident);
+            System.out.println("El president " + nomPresident + " ha estat substituït per " + nouPresident);
         }
+        this.nomPresident = nouPresident;
     }
 }

@@ -31,17 +31,27 @@ public abstract class Persona {
     protected double souAnual;
 
     /**
-     * Constructor de Persona on el seu nivell per definició és de 5
+     * Contrustor Persona sense sou anual
+     * @param nom
+     * @param cognom
+     * @param dataNaixement
+     */
+    public Persona(String nom, String cognom, Date dataNaixement) {
+        this.nom = nom;
+        this.cognom = cognom;
+        this.dataNaixement = dataNaixement;
+        this.nivellMotivacio = 5;
+    }
+
+    /**
+     * Constructor amb sou anual
      * @param nom
      * @param cognom
      * @param dataNaixement
      * @param souAnual
      */
     public Persona(String nom, String cognom, Date dataNaixement, double souAnual) {
-        this.nom = nom;
-        this.cognom = cognom;
-        this.dataNaixement = dataNaixement;
-        this.nivellMotivacio = 5;
+        this(nom, cognom, dataNaixement);
         this.souAnual = souAnual;
     }
 

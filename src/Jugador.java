@@ -128,12 +128,7 @@ public class Jugador extends Persona {
      */
     @Override
     public String toString() {
-        return "Jugador: " +
-                "Nom: " + nom + '\n' +
-                "Cognom: " + cognom + '\n' +
-                "Data Naixement: " + dataNaixement + '\n' +
-                "Nivell de motivació: " + nivellMotivacio + '\n' +
-                "Sou Anual: " + souAnual + '\n' +
+        return super.toString() + '\n' +
                 "Dorsal: " + dorsal + '\n' +
                 "Posició: " + posicio + '\n' +
                 "Qualitat: " + qualitat;
