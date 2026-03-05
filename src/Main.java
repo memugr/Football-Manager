@@ -6,7 +6,7 @@ public class Main {
         System.out.println("--------------------\n  Football Manager\n--------------------");
         carregarFitxatges();
 
-        int opcioUser = getOpcio();
+        int opcioUser = getOpcioUsuari();
         switch (opcioUser) {
             case 1:
                 mostrarMenuAdmin();
@@ -36,7 +36,7 @@ public class Main {
                 "\n0. Sortir.");
     }
 
-    public static int getOpcio() {
+    public static int getOpcioUsuari() {
         Scanner sc = new Scanner(System.in);
         int opcio = -1;
 
