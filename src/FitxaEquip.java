@@ -1,5 +1,5 @@
 /**
- * Fitxa de cada cada per guardar els partits disputats, punts i gols a favor i en contra
+ * Fitxa de cada equip per guardar els partits disputats, punts i gols a favor i en contra
  *
  * @author Mei
  * @version 1.0

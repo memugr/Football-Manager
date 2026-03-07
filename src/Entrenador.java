@@ -1,7 +1,7 @@
 import java.util.Date;
 
 /**
- * Classe Entrenador.
+ * Classe Entrenador. Hereta de la classe Persona.
  *
  * @author Abigail
  * @version 1.0
@@ -22,6 +22,17 @@ public class Entrenador extends Persona {
     public Entrenador(String nom, String cognom, Date dataNaixement, double souAnual) {
         super(nom, cognom, dataNaixement, souAnual);
     }
+    /**
+     * Constructor complet d'un Entrenador.
+     *
+     * @param nom Nom de l'entrenador.
+     * @param cognom Cognom de l'entrenador.
+     * @param dataNaixement Data de naixement.
+     * @param souAnual Sou anual assignat.
+     * @param numTorneigGuanyats Nombre de tornejos guanyats.
+     * @param seleccionadorNacional Indica si és seleccionador nacional.
+     * @param motivacio Nivell inicial de motivació (no s'està utilitzant actualment).
+     */
 
     public Entrenador(String nom, String cognom, Date dataNaixement, double souAnual, int numTorneigGuanyats, boolean seleccionadorNacional, int motivacio) {
         super(nom, cognom, dataNaixement, souAnual);
@@ -46,6 +57,9 @@ public class Entrenador extends Persona {
         this.seleccionadorNacional = seleccionadorNacional;
     }
 
+    /**
+     * Mostra la informació de l'entrenador,incloent les dades de Persona i els atributs propis.
+     */
 
     @Override
     public String toString() {
@@ -54,12 +68,21 @@ public class Entrenador extends Persona {
                 "\nÉs seleccionador nacional: " + seleccionadorNacional;
     }
 
+    /**
+     * Mètode que incrementa el sou anual de l'entrenador.
+     */
+
     public void incrementarSou () {
         double souActual = this.souAnual;
         double souNou = this.souAnual + 1.005;
         this.souAnual = souNou;
         System.out.println("El sou de l'entrenador ha pujat. Ara el sou aunual serà: " + souNou);
     }
+
+    /**
+     * Aplica l'efecte d'un entrenament sobre la motivació.
+     * Si és seleccionador nacional, la motivació puja més.
+     */
 
     @Override
     public void entrenament() {

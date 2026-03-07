@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Classe Equip. Mostra la informació de cada equip.
+ * Classe Equip. Representa un equip de futbol amb la informació bàsica.
  *
  * Cada equip té un entrenador i un llistat de jugadors/es.
  *
@@ -12,13 +12,19 @@ import java.util.ArrayList;
  */
 public class Equip {
 
+    //Atributs
     private String nom, ciutat, nomEstadi, nomPresident;
     private int anyFundacio;
     private boolean donatAlta = false;
     private double qualitatMitjaEquip;
+
+    //Entrenador de l'equip.
     private Entrenador entrenador;
+
+    //Llista de jugadors que formen part de l'equip.
     private ArrayList<Jugador> jugadors = new ArrayList<>();
 
+    //Getter i Setter de l'entrenador
     public Entrenador getEntrenador() {
         return entrenador;
     }
@@ -27,6 +33,10 @@ public class Equip {
         this.entrenador = entrenador;
     }
 
+    /**
+     * Constructor que només rep el nom de l'equip.
+     * @param nom
+     */
     public Equip(String nom) {
         this.nom = nom;
     }
@@ -59,7 +69,7 @@ public class Equip {
         this.anyFundacio = anyFundacio;
     }
 
-
+    // Getters i setters
     public String getNom() {
         return nom;
     }
@@ -109,7 +119,8 @@ public class Equip {
     }
 
     /**
-     * Mètode toString.
+     * Mètode toString de l'equip.
+     *
      * @return: informació de cada equip.
      */
     @Override
@@ -123,7 +134,11 @@ public class Equip {
                 "\n----------";
     }
 
-
+    /**
+     * Calcula la qualitat mitjana de l'equip.
+     *
+     * Si no hi ha jugadors, la qualitat és 0.
+     */
     public void calcularMitjanaEquip ()  {
         if (jugadors.isEmpty()) {
             qualitatMitjaEquip = 0;
@@ -137,6 +152,10 @@ public class Equip {
 
     }
 
+    /**
+     * Mostra la qualitat mitjana de l'equip.
+     * Si encara no s'ha calculat i no hi ha jugadors, avisa l'usuari.
+     */
     public void mostrarQualitatMitjana () {
         if (qualitatMitjaEquip == 0 && jugadors.isEmpty()) {
             System.out.println("Encara no s'ha calculat la qualitat mitjana de l'equip.");
@@ -146,6 +165,10 @@ public class Equip {
 
     }
 
+    /**
+     * Mostra tots els jugadors de l'equip.
+     * Si no n'hi ha cap, informa l'usuari.
+     */
     public void mostrarJugadors (){
         if  (jugadors.isEmpty()) {
             System.out.println("Aquest equip encara no té jugadors.");
@@ -157,6 +180,12 @@ public class Equip {
         }
     }
 
+    /**
+     * Assigna un entrenador a l'equip.
+     * Si ja n'hi ha un, mostra un missatge indicant-ho.
+     *
+     * @param entrenador Entrenador a assignar.
+     */
     public void fitxarEntrenador (Entrenador entrenador) {
         if (this.entrenador != null) {
             System.out.println("Aquest equip ja té un entrenador: " + this.entrenador.getNom() + " " +
@@ -168,8 +197,27 @@ public class Equip {
         }
     }
 
-    public void fitxarJugador (){}
+    /**
+     * Afegeix un jugador a l'equip si encara no hi forma part.
+     *
+     * @param jugador Jugador que es vol fitxar.
+     */
+    public void fitxarJugador (Jugador jugador){
+        if (jugador == null) {
+            System.out.println("No hi ha jugador per fitxar.");
+        }else if (jugador.getNom().equals(this.nom) || jugador.getCognom().equals(this.nom)) {
+            System.out.println("El jugador " + jugador.getNom() + " " + jugador.getCognom() + " ja forma part de l'equip " + this.nom + ".");
+        }else {
+            jugadors.add(jugador);
+            System.out.println("S'ha fitxat el jugador " + jugador.getNom() + " " +
+                    jugador.getCognom() + " a l'equip " + this.nom + ".");
+        }
+    }
 
+    /**
+     * Elimina l'entrenador actual de l'equip.
+     * Si no n'hi ha cap, informa l'usuari.
+     */
     public void destituirEntrenador (){
         if (this.entrenador == null) {
             System.out.println("No hi ha cap entrenador assignat.");
@@ -180,6 +228,11 @@ public class Equip {
         }
     }
 
+    /**
+     * Modifica el president de l'equip.
+     *
+     * @param nouPresident Nom del nou president.
+     */
     public void modificarPresident(String nouPresident) {
         if (nomPresident == null || nomPresident.isEmpty()) {
             System.out.println("Encara no hi havia president assignat.");
