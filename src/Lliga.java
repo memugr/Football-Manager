@@ -76,17 +76,21 @@ public class Lliga {
     }
 
     /**
-     * Disputa
+     * Disputa partits automàticament amb un Randomizer
+     * Recorre tots els equips de la lliga i els enfronta entre si,
+     * assegurant que cada parella d'equips només es trobin una vegada.
+     *
      */
     public void disputarPartits() {
         Random rand = new Random();
 
-        for (int i = 0; i < equips.size(); i++) {
-            for (int j = i + 1; j < equips.size(); j++) {
+        for (int i = 0; i < equips.size(); i++) { // Recorrem tots els equips
+            for (int j = i + 1; j < equips.size(); j++) { // Recorre un altre equip
                 int golsLocal = rand.nextInt(6);
                 int golsVisitant = rand.nextInt(6);
-                equips.get(i).afegirResultat(golsLocal, golsVisitant);
-                equips.get(j).afegirResultat(golsVisitant, golsLocal);
+
+                equips.get(i).afegirResultat(golsLocal, golsVisitant); //Actualitza la fitxa de l'equip local
+                equips.get(j).afegirResultat(golsVisitant, golsLocal); //Actualitza la fitxa de l'equip visitant (invertit)
             }
         }
     }
@@ -98,20 +102,27 @@ public class Lliga {
     }
 
     /**
-     * Mostra la classificació ordenada amb el comparadodor per punts
+     * Mostra la classificació ordenada amb el Comparator per punts
      *
      * @see ComparatorPerPunts
      */
     public void mostrarClassificacio() {
-        equips.sort(new ComparatorPerPunts());
-        System.out.println("=== CLASSIFICACIÓ " + nom + " === ");
-        for (FitxaEquip eq : equips) {
-            System.out.println(
-                    eq.getEquip().getNom() +
-                    "\nPunts: " + eq.getPunts() +
-                    "\nPartits disputats: " + eq.getPartitsDisputats() +
-                    "\nGols a Favor: " + eq.getGolsFavor() +
-                    "\nGols en Contra: " + eq.getGolsContra());
+        if (equips.isEmpty()) {
+            System.out.println("No hi ha equips a la lliga.");
+        } else {
+            equips.sort(new ComparatorPerPunts());
+            System.out.println("=== CLASSIFICACIÓ " + nom + " ===");
+            for (FitxaEquip eq : equips) {
+                System.out.println("----------");
+                System.out.println(
+                        eq.getEquip().getNom() +
+                        "\nPunts: " + eq.getPunts() +
+                        "\nPartits disputats: " + eq.getPartitsDisputats() +
+                        "\nGols a Favor: " + eq.getGolsFavor() +
+                        "\nGols en Contra: " + eq.getGolsContra() +
+                        "\nFiferència de gols: " + eq.getDiferenciaGols());
+            }
+            System.out.println("----------");
         }
     }
 }

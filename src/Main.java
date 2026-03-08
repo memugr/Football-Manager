@@ -1,6 +1,12 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Classe Main
+ *
+ * @author Mei i Abigail
+ * @version 1.0
+ */
 public class Main {
     public static void main(String[] args) {
         System.out.println("--------------------\n  Football Manager\n--------------------");
@@ -19,6 +25,10 @@ public class Main {
 
     private static void carregarFitxatges() {}
 
+    /**
+     * Demana a l'usuari si és Admin o Gestor d'Equips
+     * @return opció del tipus d'usuari
+     */
     public static int getOpcioUsuari() {
         Scanner sc = new Scanner(System.in);
         int opcio = -1;
@@ -40,7 +50,7 @@ public class Main {
         return opcio;
     }
 
-    // ADMIN
+    // ADMIN (Abi)
     public static void mostrarAdmin() {
         System.out.println("Benvingut al Politècnics Football Manager, Admin.");
         System.out.println("Escull una opció: ");
@@ -56,7 +66,12 @@ public class Main {
                 "\n0. Sortir.");
     }
 
-    //GESTOR D'EQUIPS
+    //----------------------------------------------------------------------------------------------------//
+    //GESTOR D'EQUIPS (Mei)
+
+    /**
+     * Mostra el programa principal del gestor d'equips
+     */
     public static void mostrarGestor() {
         System.out.println("Benvingut al Politècnics Football Manager, Gestor d'Equips.");
 
@@ -82,10 +97,27 @@ public class Main {
         System.out.print("Selecciona una opció: ");
     }
 
+    private static int getOpcioGestor() {
+        Scanner sc = new Scanner(System.in);
+        int opcio = -1;
+
+        try {
+            opcio = sc.nextInt();
+
+            if (opcio < 0 || opcio > 6) {
+                System.out.println("Opció no vàlida");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Caràcter no vàlid, només números");
+            sc.nextLine();
+        }
+        return opcio;
+    }
+
     public static void opcionsProgramaGestor(int opcioGestor) {
         switch (opcioGestor) {
             case 1:
-                //veureClassificacio();
+                veureClassificacio();
                 break;
             case 2:
                 mostrarGestionarEquip();
@@ -108,6 +140,10 @@ public class Main {
         }
     }
 
+    private static void veureClassificacio() {
+
+    }
+
     private static void mostrarGestionarEquip() {
         System.out.println("\nGestió d'Equips");
         int opcioGestionarEquip;
@@ -128,6 +164,23 @@ public class Main {
         System.out.print("Selecciona la teva opció: ");
     }
 
+    private static int getOpcioGestionarEquip() {
+        Scanner sc = new Scanner(System.in);
+        int opcio = -1;
+
+        try {
+            opcio = sc.nextInt();
+
+            if (opcio < 0 || opcio > 4) {
+                System.out.println("Opció no vàlida");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Caràcter no vàlid, només números");
+            sc.nextLine();
+        }
+        return opcio;
+    }
+
     private static void opcionsProgramaGestionarEquips(int opcioGestionarEquip) {
         switch (opcioGestionarEquip) {
             case 1:
@@ -145,39 +198,5 @@ public class Main {
             case 0:
                 System.out.println("Sortint de Gestionar el meu equip, tornant al menú principal");
         }
-    }
-
-    private static int getOpcioGestor() {
-        Scanner sc = new Scanner(System.in);
-        int opcio = -1;
-
-        try {
-            opcio = sc.nextInt();
-
-            if (opcio < 0 || opcio > 6) {
-                System.out.println("Opció no vàlida");
-            }
-        } catch (InputMismatchException e) {
-            System.out.println("Caràcter no vàlid, només números");
-            sc.nextLine();
-        }
-        return opcio;
-    }
-
-    private static int getOpcioGestionarEquip() {
-        Scanner sc = new Scanner(System.in);
-        int opcio = -1;
-
-        try {
-            opcio = sc.nextInt();
-
-            if (opcio < 0 || opcio > 4) {
-                System.out.println("Opció no vàlida");
-            }
-        } catch (InputMismatchException e) {
-            System.out.println("Caràcter no vàlid, només números");
-            sc.nextLine();
-        }
-        return opcio;
     }
 }

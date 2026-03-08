@@ -47,6 +47,12 @@ public class FitxaEquip {
         return golsFavor - golsContra;
     }
 
+    /**
+     * Modifica els gols a favor, en contra i els punts totals de cada equip
+     *
+     * @param golsF
+     * @param golsC
+     */
     public void afegirResultat(int golsF, int golsC) {
         this.golsFavor += golsF;
         this.golsContra += golsC;
