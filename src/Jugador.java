@@ -32,22 +32,24 @@ public class Jugador extends Persona {
     private double qualitat;
 
     //Constructor
+
     /**
-     * Constructor del jugador
      *
      * @param nom
      * @param cognom
      * @param dataNaixement
+     * @param nivellMotivacio
      * @param souAnual
      * @param dorsal
      * @param posicio
+     * @param qualitat
      */
-    public Jugador(String nom, String cognom, Date dataNaixement, double souAnual, int dorsal, String posicio) {
-        super(nom, cognom, dataNaixement, souAnual);
+    public Jugador(String nom, String cognom, Date dataNaixement, double nivellMotivacio, double souAnual, int dorsal, String posicio, double qualitat) {
+        super(nom, cognom, dataNaixement, nivellMotivacio, souAnual);
         this.dorsal = dorsal;
         this.posicio = posicio;
-        this.qualitat = generarQualitat();
-        comptadorJugadors++;
+        this.qualitat = qualitat;
+
     }
 
     //Getters

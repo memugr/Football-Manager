@@ -1,3 +1,8 @@
+import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -9,21 +14,66 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("--------------------\n  Football Manager\n--------------------");
-        carregarFitxatges();
+        ArrayList<Persona> mercatFitxatges = new ArrayList<>();
+        ArrayList<Equip> equips = new ArrayList<>();
+        Lliga lliga = null;
 
+        String fileName = "src/fitxers/mercat_fitxatges.txt";
+        carregarFitxatges(fileName, mercatFitxatges);
+
+        System.out.println("--------------------\n  Football Manager\n--------------------");
         int opcioUser = getOpcioUsuari();
         switch (opcioUser) {
             case 1:
                 mostrarAdmin();
                 break;
             case 2:
-                mostrarGestor();
+                mostrarGestor(mercatFitxatges, equips, lliga);
                 break;
         }
     }
 
-    private static void carregarFitxatges() {}
+    private static void carregarFitxatges(String fileName, ArrayList<Persona> mercatFitxatges) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            String line;
+            SimpleDateFormat formatData = new SimpleDateFormat("dd/MM/yyyy");
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(";");
+
+                char tipusPersonona = parts[0].charAt(0);
+                String nom = parts[1];
+                String cognom = parts[2];
+                Date dataNaixement = formatData.parse(parts[3]);
+                int motivacio = Integer.parseInt(parts[4]);
+                double souAnual = Double.parseDouble(parts[5]);
+
+                if (tipusPersonona == 'J') {
+                    int dorsal = Integer.parseInt(parts[6]);
+                    String posicio =  parts[7];
+                    double qualitat = Double.parseDouble(parts[8]);
+
+                    Jugador j = new Jugador(nom, cognom, dataNaixement, motivacio, souAnual, dorsal, posicio, qualitat);
+                    mercatFitxatges.add(j);
+
+                } else if (tipusPersonona == 'E') {
+                    int tornejosGuanyats = Integer.parseInt(parts[6]);
+                    boolean esSeleccionador = Boolean.parseBoolean(parts[7]);
+
+                    Entrenador e = new Entrenador(nom, cognom, dataNaixement, motivacio, souAnual, tornejosGuanyats, esSeleccionador);
+                    mercatFitxatges.add(e);
+                }
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: Fitxer no trobat");
+        } catch (IOException e) {
+            System.out.println("Error llegint el fitxer");
+        } catch (ParseException e) {
+            System.out.println("Error llegint el fitxer");
+        }
+    }
 
     /**
      * Demana a l'usuari si és Admin o Gestor d'Equips
@@ -72,7 +122,7 @@ public class Main {
     /**
      * Mostra el programa principal del gestor d'equips
      */
-    public static void mostrarGestor() {
+    public static void mostrarGestor(ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga) {
         System.out.println("Benvingut al Politècnics Football Manager, Gestor d'Equips.");
 
         //Atributs
@@ -81,7 +131,7 @@ public class Main {
         do {
             mostrarMenuGestor();
             opcioGestor = getOpcioGestor();
-            opcionsProgramaGestor(opcioGestor);
+            opcionsProgramaGestor(opcioGestor, mercatFitxatges, equips, lliga);
 
         } while (opcioGestor != 0);
     }
@@ -114,19 +164,19 @@ public class Main {
         return opcio;
     }
 
-    public static void opcionsProgramaGestor(int opcioGestor) {
+    public static void opcionsProgramaGestor(int opcioGestor, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga) {
         switch (opcioGestor) {
             case 1:
-                veureClassificacio();
+                veureClassificacio(lliga);
                 break;
             case 2:
                 mostrarGestionarEquip();
                 break;
             case 3:
-                //consultarDadesEquip();
+                consultarDadesEquip(equips);
                 break;
             case 4:
-                //consultarDadesJugador();
+                consultarDadesJugador(equips, mercatFitxatges);
                 break;
             case 5:
                 //transferirJugador();
@@ -140,10 +190,21 @@ public class Main {
         }
     }
 
-    private static void veureClassificacio() {
-
+    /**
+     * Mostra la classificació de la lliga
+     * @param lliga
+     */
+    private static void veureClassificacio(Lliga lliga) {
+        if (lliga == null) {
+            System.out.println("No hi ha cap lliga disputada/activa");
+        } else {
+            lliga.mostrarClassificacio();
+        }
     }
 
+    /**
+     * Mostra l'apartat de "Gestionar el Meu Equip"
+     */
     private static void mostrarGestionarEquip() {
         System.out.println("\nGestió d'Equips");
         int opcioGestionarEquip;
@@ -198,5 +259,56 @@ public class Main {
             case 0:
                 System.out.println("Sortint de Gestionar el meu equip, tornant al menú principal");
         }
+    }
+
+    private static void consultarDadesEquip(ArrayList<Equip> equips) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nBUSCADOR EQUIP\nIntrodueix el nom de l'equip: ");
+        String nomEquipTrobar = sc.nextLine();
+        int pos = buscarPosicioEquip(equips, nomEquipTrobar);
+
+        if (pos != -1) {
+            Equip eq = equips.get(pos);
+            System.out.println("\nEquip trobat");
+            System.out.println(eq.toString());
+        } else {
+            System.out.println("Equip " + nomEquipTrobar + " no s'ha trobat");
+        }
+    }
+
+    private static int buscarPosicioEquip(ArrayList<Equip> equips, String nomEquipTrobar) {
+        boolean trobat = false;
+        int i = 0, pos = -1;
+
+        while (!trobat && i < equips.size()) {
+            if (equips.get(i).getNom().equalsIgnoreCase(nomEquipTrobar)) {
+                trobat = true;
+                pos = i;
+            }
+            i++;
+        }
+        return pos;
+    }
+
+    private static void consultarDadesJugador(ArrayList<Equip> equips, ArrayList<Persona> mercatFitxatges) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nBUSCADOR JUGADOR/A\nPrimer introdueix l'equip del jugador/a ");
+        String nomEquipTrobar = sc.nextLine();
+        int posEquip = buscarPosicioEquip(equips, nomEquipTrobar);
+
+        if (posEquip != -1) {
+            System.out.print("\nEquip trobat, introdueix el nom del jugador/a: ");
+            String nomJugadorTrobar = sc.nextLine();
+            System.out.print("\nIntrodueix el dorsal del jugador/a: ");
+            int dorsalJugadorTrobar = sc.nextInt();
+
+            Equip eq = equips.get(posEquip);
+
+
+
+        } else {
+            System.out.println("Equip o jujador no s'ha trobat");
+        }
+
     }
 }

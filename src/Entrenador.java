@@ -30,14 +30,28 @@ public class Entrenador extends Persona {
      * @param dataNaixement Data de naixement.
      * @param souAnual Sou anual assignat.
      * @param numTorneigGuanyats Nombre de tornejos guanyats.
-     * @param seleccionadorNacional Indica si és seleccionador nacional.
-     * @param motivacio Nivell inicial de motivació (no s'està utilitzant actualment).
+     * @param seleccionadorNacional Indica si és seleccionador nacional
      */
-
-    public Entrenador(String nom, String cognom, Date dataNaixement, double souAnual, int numTorneigGuanyats, boolean seleccionadorNacional, int motivacio) {
+    public Entrenador(String nom, String cognom, Date dataNaixement, double souAnual, int numTorneigGuanyats, boolean seleccionadorNacional) {
         super(nom, cognom, dataNaixement, souAnual);
         this.numTorneigGuanyats = numTorneigGuanyats;
         this.seleccionadorNacional = seleccionadorNacional;
+    }
+
+    /**
+     * Constructor amb el nivell de motivació ja definit
+     * @param nom
+     * @param cognom
+     * @param dataNaixement
+     * @param nivellMotivacio
+     * @param souAnual
+     * @param tornejosGuanyats
+     * @param esSeleccionador
+     */
+    public Entrenador(String nom, String cognom, Date dataNaixement, int nivellMotivacio, double souAnual, int tornejosGuanyats, boolean esSeleccionador) {
+        super(nom, cognom, dataNaixement, nivellMotivacio, souAnual);
+        this.numTorneigGuanyats = tornejosGuanyats;
+        this.seleccionadorNacional = esSeleccionador;
     }
 
     //Getters i setters
@@ -71,7 +85,6 @@ public class Entrenador extends Persona {
     /**
      * Mètode que incrementa el sou anual de l'entrenador.
      */
-
     public void incrementarSou () {
         double souActual = this.souAnual;
         double souNou = this.souAnual + 1.005;
@@ -83,7 +96,6 @@ public class Entrenador extends Persona {
      * Aplica l'efecte d'un entrenament sobre la motivació.
      * Si és seleccionador nacional, la motivació puja més.
      */
-
     @Override
     public void entrenament() {
         if (this.seleccionadorNacional) {
