@@ -23,6 +23,10 @@ public class Main {
 
         System.out.println("--------------------\n  Football Manager\n--------------------");
         int opcioUser = getOpcioUsuari();
+        mostrarOpcionsPrograma(opcioUser, mercatFitxatges, equips, lliga);
+    }
+
+    private static void mostrarOpcionsPrograma(int opcioUser, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga) {
         switch (opcioUser) {
             case 1:
                 mostrarAdmin();
@@ -101,7 +105,12 @@ public class Main {
     }
 
     // ADMIN (Abi)
+
     public static void mostrarAdmin() {
+        mostrarMenuAdmin();
+    }
+
+    private static void mostrarMenuAdmin() {
         System.out.println("Benvingut al Politècnics Football Manager, Admin.");
         System.out.println("Escull una opció: ");
         System.out.println("-----\nMenú:\n-----");
@@ -115,6 +124,8 @@ public class Main {
                 "\n8. Desar dades dels equips." +
                 "\n0. Sortir.");
     }
+
+
 
     //----------------------------------------------------------------------------------------------------//
     //GESTOR D'EQUIPS (Mei)
