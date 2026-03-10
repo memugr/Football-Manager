@@ -6,8 +6,12 @@ public class Main {
         System.out.println("--------------------\n  Football Manager\n--------------------");
         carregarFitxatges();
 
-        int opcioUser = getOpcioUsuari();
-        switch (opcioUser) {
+        int opcioUsuari = getOpcioUsuari();
+        mostrarOpcioUsuari(opcioUsuari);
+    }
+
+    private static void mostrarOpcioUsuari(int opcioUsuari) {
+        switch (opcioUsuari) {
             case 1:
                 mostrarAdmin();
                 break;
@@ -17,28 +21,30 @@ public class Main {
         }
     }
 
-    private static void carregarFitxatges() {}
-
     public static int getOpcioUsuari() {
         Scanner sc = new Scanner(System.in);
-        int opcio = -1;
+        int opcioUsuari = -1;
 
         do {
             try {
                 System.out.print("Ets administrador (1) o gestor d'equip (2)? ");
-                opcio = sc.nextInt();
+                opcioUsuari = sc.nextInt();
 
-                if (opcio < 1 || opcio > 2) {
+                if (opcioUsuari < 1 || opcioUsuari > 2) {
                     System.out.println("Opció invàlida");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Caràcter invàlid, només números!");
                 sc.nextLine();
             }
-        } while (opcio < 1 || opcio > 2);
+        } while (opcioUsuari < 1 || opcioUsuari > 2);
 
-        return opcio;
+        return opcioUsuari;
     }
+
+    private static void carregarFitxatges() {}
+
+    public static void mostrarClassificacioLliga (){}
 
     // ADMIN
     public static void mostrarAdmin() {
@@ -55,6 +61,55 @@ public class Main {
                 "\n8. Desar dades dels equips." +
                 "\n0. Sortir.");
     }
+    //Casos de la opcion menu admin
+    public static void opcionsMenuAdmin (){
+        switch (getOpcioAdmin()) {
+            case 1:
+                // Veure classificació lliga actual
+                break;
+            case 2:
+                //Donar alta equip
+                break;
+            case 3:
+                //Donar alta jugador o entrenador
+                break;
+            case 4:
+                //Consultar dades del equip
+                break;
+            case 5:
+                //Consultar dades del jugador
+                break;
+            case 6:
+                //Disputar nova lliga
+                break;
+            case 7:
+                //Sessió entrenament
+                break;
+            case 8:
+                //Guardar dades de l'equip
+                break;
+            case 0:
+                //Sortir
+                break;
+        }
+    }
+//Creo que esto no es!
+    public static int getOpcioAdmin (){
+        Scanner sc = new Scanner(System.in);
+        int opcioAdmin = -1;
+
+        try {
+            opcioAdmin = sc.nextInt();
+            if (opcioAdmin < 0 || opcioAdmin > 8) {
+                System.out.println("Opció no vàlida");
+            }
+        }catch (InputMismatchException e){
+            System.out.println("Caràcter no vàlid, només números");
+            sc.nextLine();
+        }
+        return opcioAdmin;
+    }
+
 
     //GESTOR D'EQUIPS
     public static void mostrarGestor() {
