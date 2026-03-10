@@ -72,9 +72,7 @@ public class Main {
             br.close();
         } catch (FileNotFoundException e) {
             System.out.println("Error: Fitxer no trobat");
-        } catch (IOException e) {
-            System.out.println("Error llegint el fitxer");
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             System.out.println("Error llegint el fitxer");
         }
     }
