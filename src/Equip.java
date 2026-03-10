@@ -118,6 +118,10 @@ public class Equip {
         this.donatAlta = donatAlta;
     }
 
+    public ArrayList<Jugador> getJugadors() {
+        return jugadors;
+    }
+
     /**
      * Mètode toString de l'equip.
      *

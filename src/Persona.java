@@ -9,25 +9,9 @@ import java.util.Date;
 
 public abstract class Persona {
     //Atributs
-    /**
-     * Nom persona
-     */
-    protected String nom;
-    /**
-     * Cognom persona
-     */
-    protected String cognom;
-    /**
-     * Data de naixement
-     */
+    protected String nom, cognom;
     protected Date dataNaixement;
-    /**
-     * Nivell de motivació
-     */
     protected double nivellMotivacio;
-    /**
-     * Sou anual de la persona
-     */
     protected double souAnual;
 
     /**
@@ -52,6 +36,22 @@ public abstract class Persona {
      */
     public Persona(String nom, String cognom, Date dataNaixement, double souAnual) {
         this(nom, cognom, dataNaixement);
+        this.souAnual = souAnual;
+    }
+
+    /**
+     * Constructor amb tots els paràmetres
+     * @param nom
+     * @param cognom
+     * @param dataNaixement
+     * @param nivellMotivacio
+     * @param souAnual
+     */
+    public Persona(String nom, String cognom, Date dataNaixement, double nivellMotivacio, double souAnual) {
+        this.nom = nom;
+        this.cognom = cognom;
+        this.dataNaixement = dataNaixement;
+        this.nivellMotivacio = nivellMotivacio;
         this.souAnual = souAnual;
     }
 
