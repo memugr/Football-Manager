@@ -224,7 +224,7 @@ public class Equip {
      */
     public void destituirEntrenador (){
         if (this.entrenador == null) {
-            System.out.println("No hi ha cap entrenador assignat.");
+            System.out.println("No hi ha cap entrenador assignat a " + this.nom);
         } else {
             String nomEntrenador = this.entrenador.getNom() + " " + this.entrenador.getCognom();
             this.entrenador = null;
