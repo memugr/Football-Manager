@@ -187,10 +187,10 @@ public class Main {
                 consultarDadesEquip(equips);
                 break;
             case 4:
-                consultarDadesJugador(equips, mercatFitxatges);
+                consultarDadesJugador(equips);
                 break;
             case 5:
-                //transferirJugador();
+                transferirJugador(equips);
                 break;
             case 6:
                 //desarDadesEquips();
@@ -287,7 +287,7 @@ public class Main {
         }
     }
 
-    private static int buscarPosicioEquip(ArrayList<Equip> equips, String nomEquipTrobar) {
+    public static int buscarPosicioEquip(ArrayList<Equip> equips, String nomEquipTrobar) {
         boolean trobat = false;
         int i = 0, pos = -1;
 
@@ -301,7 +301,7 @@ public class Main {
         return pos;
     }
 
-    private static void consultarDadesJugador(ArrayList<Equip> equips, ArrayList<Persona> mercatFitxatges) {
+    private static void consultarDadesJugador(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nBUSCADOR JUGADOR/A\nPrimer introdueix l'equip del jugador/a ");
         String nomEquipTrobar = sc.nextLine();
@@ -310,16 +310,120 @@ public class Main {
         if (posEquip != -1) {
             System.out.print("\nEquip trobat, introdueix el nom del jugador/a: ");
             String nomJugadorTrobar = sc.nextLine();
-            System.out.print("\nIntrodueix el dorsal del jugador/a: ");
+            System.out.print("Introdueix el dorsal del jugador/a: ");
             int dorsalJugadorTrobar = sc.nextInt();
 
             Equip eq = equips.get(posEquip);
+            int posJugador = buscarPosicioJugador(eq, nomJugadorTrobar, dorsalJugadorTrobar);
 
-
-
+            if (posJugador != -1) {
+                System.out.println("\nJugador trobat");
+                System.out.println(eq.getJugadors().get(posJugador));
+            } else {
+                System.out.println("Jugador no trobat");
+            }
         } else {
-            System.out.println("Equip o jujador no s'ha trobat");
+            System.out.println("Equip no s'ha trobat");
         }
+    }
 
+    public static int buscarPosicioJugador(Equip eq, String nomJugadorTrobar, int dorsalJugadorTrobar) {
+        int i = 0, pos = -1;
+        boolean trobat = false;
+
+        while (!trobat && i < eq.getJugadors().size()) {
+            Jugador j = eq.getJugadors().get(i);
+            if (j.getNom().equalsIgnoreCase(nomJugadorTrobar) && j.getDorsal() == dorsalJugadorTrobar) {
+                trobat = true;
+                pos = i;
+            }
+            i++;
+        }
+        return pos;
+    }
+
+    private static void transferirJugador(ArrayList<Equip> equips) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("TRANSFERÈNCIA DE JUGADOR/A\nEquip original: ");
+        String nomEquipOriginal = sc.nextLine();
+        System.out.print("Equip destinació: ");
+        String nomEquipDestinacio = sc.nextLine();
+
+        int posEquipOriginal = buscarPosicioEquip(equips, nomEquipOriginal);
+        int posEquipDesinacio = buscarPosicioEquip(equips, nomEquipDestinacio);
+
+        if (posEquipOriginal != -1 && posEquipDesinacio != -1) {
+            System.out.print("\nPerfecte, els 2 equips existeixen\nIntrodueix el nom del jugador/a: ");
+            String nomJugadorTrobar = sc.nextLine();
+            System.out.print("Introdueix el dorsal del jugador/a: ");
+            int dorsalJugadorTrobar = sc.nextInt();
+
+            Equip eqOriginal =  equips.get(posEquipOriginal);
+            Equip eqDestinacio =  equips.get(posEquipDesinacio);
+
+            int posJugador = buscarPosicioJugador(eqOriginal, nomJugadorTrobar, dorsalJugadorTrobar);
+
+            if (posJugador != -1) {
+                System.out.println("\nJugador trobat");
+                System.out.println("Vols tranferir " + nomJugadorTrobar + "(Equip original: " + eqOriginal.getNom() +
+                        ") al equip " + eqDestinacio.getNom() + "? Y/N");
+
+                char respostaUsuari = getRespostaUsuari();
+
+                if (respostaUsuari == 'Y' || respostaUsuari == 'y') {
+                    Jugador jugador = eqOriginal.getJugadors().get(posJugador);
+
+                    // Verificar que el dorsal no estigui ocupat a l'equip destí
+                    int posJugadorDestinacio = buscarPosicioJugadorDorsal(eqDestinacio, jugador.getDorsal());
+
+                    while (posJugadorDestinacio != -1) {
+                        System.out.print("El dorsal " + jugador.getDorsal() + " ja està ocupat. Introdueix un nou dorsal: ");
+                        int nouDorsal = sc.nextInt();
+                        posJugadorDestinacio = buscarPosicioJugadorDorsal(eqDestinacio, nouDorsal);
+
+                        if (posJugadorDestinacio == -1) {
+                            jugador.setDorsal(nouDorsal);
+                        }
+                    }
+
+                    eqOriginal.getJugadors().remove(posJugador);
+                    eqDestinacio.getJugadors().add(jugador);
+                    System.out.println("Jugador transferit correctament!");
+                } else {
+                    System.out.println("Transferència cancel·lada");
+                }
+            }
+        } else {
+            System.out.println("No s'ha pogut trobar alguns dels equips indicats");
+        }
+    }
+
+    private static char getRespostaUsuari() {
+        Scanner sc = new Scanner(System.in);
+        char respostaUsuari;
+
+        do {
+            respostaUsuari = sc.next().toLowerCase().charAt(0);
+
+            if (respostaUsuari != 'y' && respostaUsuari != 'Y') {
+                System.out.println("Resposta invàlida");
+            }
+        } while (respostaUsuari != 'y' && respostaUsuari != 'n');
+
+        return respostaUsuari;
+    }
+
+    private static int buscarPosicioJugadorDorsal(Equip eq, int dorsal) {
+        int i = 0, pos = -1;
+        boolean trobat = false;
+
+        while (!trobat && i < eq.getJugadors().size()) {
+            if (eq.getJugadors().get(i).getDorsal() == dorsal) {
+                trobat = true;
+                pos = i;
+            }
+            i++;
+        }
+        return pos;
     }
 }
