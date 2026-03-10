@@ -97,8 +97,7 @@ public abstract class Persona {
      */
     @Override
     public String toString() {
-        return "Persona:" + '\n' +
-                "Nom: " + nom + '\n' +
+        return "Nom: " + nom + '\n' +
                 "Cognom: " + cognom + '\n' +
                 "Data Naixement: " + dataNaixement + '\n' +
                 "Nivell de motivació: " + nivellMotivacio + '\n' +

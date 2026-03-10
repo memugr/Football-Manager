@@ -18,6 +18,29 @@ public class Main {
         ArrayList<Equip> equips = new ArrayList<>();
         Lliga lliga = null;
 
+        // Equip sense president
+        Equip equip1 = new Equip("FC Barcelona", "Barcelona", 1899);
+        Equip equip2 = new Equip(1902, "Florentino Pérez", "Santiago Bernabéu", "Madrid", "Real Madrid");
+
+        equips.add(equip1);
+        equips.add(equip2);
+        Date data = new Date();
+
+        Jugador j1 = new Jugador("Lamine", "Yamal", data, 9, 1670000, 10, "DAV", 91);
+        Jugador j2 = new Jugador("Robert", "Lewandowski", data, 8, 33000000, 9, "DAV", 94);
+        Jugador j3 = new Jugador("Marc-André", "ter Stegen", data, 9, 15000000, 1, "POR", 90);
+        Jugador j4 = new Jugador("Jules", "Koundé", data, 8, 10000000, 23, "DEF", 88);
+        Jugador j5 = new Jugador("Vinícius", "Júnior", data, 9, 12000000, 10, "DAV", 92);
+        Jugador j6 = new Jugador("Thibaut", "Courtois", data, 5, 15000000, 1, "POR", 91);
+
+        equip1.getJugadors().add(j1); // Barcelona
+        equip1.getJugadors().add(j2);
+        equip1.getJugadors().add(j3);
+        equip1.getJugadors().add(j4);
+        equip2.getJugadors().add(j5); // Real Madrid
+        equip2.getJugadors().add(j6);
+
+
         String fileName = "src/fitxers/mercat_fitxatges.txt";
         carregarFitxatges(fileName, mercatFitxatges);
 
@@ -181,7 +204,7 @@ public class Main {
                 veureClassificacio(lliga);
                 break;
             case 2:
-                mostrarGestionarEquip();
+                mostrarGestionarEquip(equips);
                 break;
             case 3:
                 consultarDadesEquip(equips);
@@ -216,14 +239,14 @@ public class Main {
     /**
      * Mostra l'apartat de "Gestionar el Meu Equip"
      */
-    private static void mostrarGestionarEquip() {
+    private static void mostrarGestionarEquip(ArrayList<Equip> equips) {
         System.out.println("\nGestió d'Equips");
         int opcioGestionarEquip;
 
         do {
             mostrarMenuGestionar();
             opcioGestionarEquip = getOpcioGestionarEquip();
-            opcionsProgramaGestionarEquips(opcioGestionarEquip);
+            opcionsProgramaGestionarEquips(opcioGestionarEquip, equips);
         } while (opcioGestionarEquip != 0);
     }
 
@@ -253,13 +276,13 @@ public class Main {
         return opcio;
     }
 
-    private static void opcionsProgramaGestionarEquips(int opcioGestionarEquip) {
+    private static void opcionsProgramaGestionarEquips(int opcioGestionarEquip, ArrayList<Equip> equips) {
         switch (opcioGestionarEquip) {
             case 1:
-                //donarBaixaEquip();
+                donarBaixaEquip(equips);
                 break;
             case 2:
-                //modificarPresident();
+                modificarPresident(equips);
                 break;
             case 3:
                 //destituirEntrenador();
@@ -269,6 +292,44 @@ public class Main {
                 break;
             case 0:
                 System.out.println("Sortint de Gestionar el meu equip, tornant al menú principal");
+        }
+    }
+
+    private static void donarBaixaEquip(ArrayList<Equip> equips) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nDONAR DE BAIXA EQUIP\nNom de l'equip: ");
+        String nomEquip = sc.nextLine();
+        int posEquip = buscarPosicioEquip(equips, nomEquip);
+
+        if (posEquip != -1) {
+            System.out.print("Equip trobat\nSegur/a que vols eliminar " + nomEquip + "? Y/N ");
+            char respostaUsuari = getRespostaUsuari();
+
+            if (respostaUsuari == 'y') {
+                equips.remove(posEquip);
+                System.out.println("Equip " + nomEquip + " eliminat");
+            } else {
+                System.out.println("Operació cancel·lada");
+            }
+        } else {
+            System.out.println("Equip " + nomEquip + " no existeix");
+        }
+    }
+
+    private static void modificarPresident(ArrayList<Equip> equips) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nMODIFICAR PRESIDENT\nIndica l'equip: ");
+        String nomEquip = sc.nextLine();
+
+        int posEquip = buscarPosicioEquip(equips, nomEquip);
+
+        if (posEquip != -1) {
+            System.out.print("Indica el nou president: ");
+            String nouPresident = sc.nextLine();
+
+            equips.get(posEquip).modificarPresident(nouPresident);
+        } else {
+            System.out.println("Equip no existeix");
         }
     }
 
@@ -308,7 +369,7 @@ public class Main {
         int posEquip = buscarPosicioEquip(equips, nomEquipTrobar);
 
         if (posEquip != -1) {
-            System.out.print("\nEquip trobat, introdueix el nom del jugador/a: ");
+            System.out.print("Equip trobat, introdueix el nom del jugador/a: ");
             String nomJugadorTrobar = sc.nextLine();
             System.out.print("Introdueix el dorsal del jugador/a: ");
             int dorsalJugadorTrobar = sc.nextInt();
@@ -344,7 +405,7 @@ public class Main {
 
     private static void transferirJugador(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("TRANSFERÈNCIA DE JUGADOR/A\nEquip original: ");
+        System.out.print("\nTRANSFERÈNCIA DE JUGADOR/A\nEquip original: ");
         String nomEquipOriginal = sc.nextLine();
         System.out.print("Equip destinació: ");
         String nomEquipDestinacio = sc.nextLine();
@@ -365,12 +426,12 @@ public class Main {
 
             if (posJugador != -1) {
                 System.out.println("\nJugador trobat");
-                System.out.println("Vols tranferir " + nomJugadorTrobar + "(Equip original: " + eqOriginal.getNom() +
-                        ") al equip " + eqDestinacio.getNom() + "? Y/N");
+                System.out.print("Vols transferir " + nomJugadorTrobar + " (Equip original: " + eqOriginal.getNom() +
+                        ") al equip " + eqDestinacio.getNom() + "? Y/N ");
 
                 char respostaUsuari = getRespostaUsuari();
 
-                if (respostaUsuari == 'Y' || respostaUsuari == 'y') {
+                if (respostaUsuari == 'y') {
                     Jugador jugador = eqOriginal.getJugadors().get(posJugador);
 
                     // Verificar que el dorsal no estigui ocupat a l'equip destí
@@ -398,15 +459,15 @@ public class Main {
         }
     }
 
-    private static char getRespostaUsuari() {
+    public static char getRespostaUsuari() {
         Scanner sc = new Scanner(System.in);
         char respostaUsuari;
 
         do {
             respostaUsuari = sc.next().toLowerCase().charAt(0);
 
-            if (respostaUsuari != 'y' && respostaUsuari != 'Y') {
-                System.out.println("Resposta invàlida");
+            if (respostaUsuari != 'y' && respostaUsuari != 'n') {
+                System.out.println("Resposta invàlida, només y o n");
             }
         } while (respostaUsuari != 'y' && respostaUsuari != 'n');
 

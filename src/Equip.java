@@ -239,12 +239,13 @@ public class Equip {
      */
     public void modificarPresident(String nouPresident) {
         if (nomPresident == null || nomPresident.isEmpty()) {
-            System.out.println("Encara no hi havia president assignat.");
+            this.nomPresident = nouPresident;
+            System.out.println("Nou president: " + nouPresident);
         } else if (nomPresident.equals(nouPresident)) {
-            System.out.println("Ja és el president actual!");
+            System.out.println(nouPresident + "ja és el president actual de " + this.nom);
         } else {
             System.out.println("El president " + nomPresident + " ha estat substituït per " + nouPresident);
         }
-        this.nomPresident = nouPresident;
+
     }
 }

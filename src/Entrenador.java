@@ -77,7 +77,8 @@ public class Entrenador extends Persona {
 
     @Override
     public String toString() {
-        return super.toString() +
+        return "Entrenador: " + '\n' +
+                super.toString() +
                 "\nNúmero de tornejos guanyats: " + numTorneigGuanyats +
                 "\nÉs seleccionador nacional: " + seleccionadorNacional;
     }
