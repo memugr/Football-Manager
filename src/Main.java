@@ -18,29 +18,6 @@ public class Main {
         ArrayList<Equip> equips = new ArrayList<>();
         Lliga lliga = null;
 
-        // Equip sense president
-        Equip equip1 = new Equip("FC Barcelona", "Barcelona", 1899);
-        Equip equip2 = new Equip(1902, "Florentino Pérez", "Santiago Bernabéu", "Madrid", "Real Madrid");
-
-        equips.add(equip1);
-        equips.add(equip2);
-        Date data = new Date();
-
-        Jugador j1 = new Jugador("Lamine", "Yamal", data, 9, 1670000, 10, "DAV", 91);
-        Jugador j2 = new Jugador("Robert", "Lewandowski", data, 8, 33000000, 9, "DAV", 94);
-        Jugador j3 = new Jugador("Marc-André", "ter Stegen", data, 9, 15000000, 1, "POR", 90);
-        Jugador j4 = new Jugador("Jules", "Koundé", data, 8, 10000000, 23, "DEF", 88);
-        Jugador j5 = new Jugador("Vinícius", "Júnior", data, 9, 12000000, 10, "DAV", 92);
-        Jugador j6 = new Jugador("Thibaut", "Courtois", data, 5, 15000000, 1, "POR", 91);
-
-        equip1.getJugadors().add(j1); // Barcelona
-        equip1.getJugadors().add(j2);
-        equip1.getJugadors().add(j3);
-        equip1.getJugadors().add(j4);
-        equip2.getJugadors().add(j5); // Real Madrid
-        equip2.getJugadors().add(j6);
-
-
         String fileName = "src/fitxers/mercat_fitxatges.txt";
         carregarFitxatges(fileName, mercatFitxatges);
 
