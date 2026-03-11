@@ -209,9 +209,9 @@ public class Equip {
     public void fitxarJugador (Jugador jugador){
         if (jugador == null) {
             System.out.println("No hi ha jugador per fitxar.");
-        }else if (jugador.getNom().equals(this.nom) || jugador.getCognom().equals(this.nom)) {
+        } else if (jugador.getNom().equals(this.nom) || jugador.getCognom().equals(this.nom)) {
             System.out.println("El jugador " + jugador.getNom() + " " + jugador.getCognom() + " ja forma part de l'equip " + this.nom + ".");
-        }else {
+        } else {
             jugadors.add(jugador);
             System.out.println("S'ha fitxat el jugador " + jugador.getNom() + " " +
                     jugador.getCognom() + " a l'equip " + this.nom + ".");
