@@ -191,11 +191,27 @@ public class Main {
                 transferirJugador(equips);
                 break;
             case 6:
-                //desarDadesEquips();
+                desarDadesEquips(equips);
                 break;
             case 0:
                 System.out.println("Sortint del programa");
                 break;
+        }
+    }
+
+    private static void desarDadesEquips(ArrayList<Equip> equips) {
+        String fileName = "src/fitxers/data_equips.txt";
+
+        String info = "";
+        for (Equip e : equips) {
+            info += e.toString() + "\n";
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
+            bw.write(info);
+            System.out.println("Tots els equips s'han guardat correctament");
+        } catch (IOException e) {
+            System.out.println("Error writing file");
         }
     }
 
