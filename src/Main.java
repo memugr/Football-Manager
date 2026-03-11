@@ -22,6 +22,7 @@ public class Main {
         carregarFitxatges(fileName, mercatFitxatges);
 
         System.out.println("--------------------\n  Football Manager\n--------------------");
+        System.out.print("Ets administrador (1) o gestor d'equip (2)? ");
         int opcioUser = getOpcioUsuari();
         mostrarOpcionsPrograma(opcioUser, mercatFitxatges, equips, lliga);
     }
@@ -78,7 +79,7 @@ public class Main {
     }
 
     /**
-     * Demana a l'usuari si és Admin o Gestor d'Equips
+     * Guarda l'opció introduida per l'usuari 1 o 2
      * @return opció del tipus d'usuari
      */
     public static int getOpcioUsuari() {
@@ -87,7 +88,6 @@ public class Main {
 
         do {
             try {
-                System.out.print("Ets administrador (1) o gestor d'equip (2)? ");
                 opcio = sc.nextInt();
 
                 if (opcio < 1 || opcio > 2) {
@@ -215,7 +215,7 @@ public class Main {
      * Mostra l'apartat de "Gestionar el Meu Equip"
      */
     private static void mostrarGestionarEquip(ArrayList<Equip> equips) {
-        System.out.println("\nGestió d'Equips");
+        System.out.print("\nGESTIÓ D'EQUIPOS");
         int opcioGestionarEquip;
 
         do {
@@ -263,7 +263,7 @@ public class Main {
                 destituirEntrenador(equips);
                 break;
             case 4:
-                //fitxarJugadorEntrenador();
+                fitxarJugadorEntrenador(equips);
                 break;
             case 0:
                 System.out.println("Sortint de Gestionar el meu equip, tornant al menú principal");
@@ -336,6 +336,10 @@ public class Main {
         } else {
             System.out.println("Equip " + nomEquip + " no existeix");
         }
+    }
+
+    private static void fitxarJugadorEntrenador(ArrayList<Equip> equips) {
+        System.out.println("FITXATGE JUGADOR");
     }
 
     public static void consultarDadesEquip(ArrayList<Equip> equips) {
