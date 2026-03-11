@@ -20,9 +20,7 @@ public class Lliga {
      *
      * @param nom
      */
-    public Lliga(String nom) {
-        this.nom = nom;
-    }
+    public Lliga(String nom) { this.nom = nom;}
 
     /**
      * Constructor Lliga completa
@@ -72,7 +70,7 @@ public class Lliga {
      */
     public void afegirEquip(Equip nouEquip) {
         this.equips.add(new FitxaEquip(nouEquip));
-        System.out.println("Equip " + nouEquip + "s'ha afegit correctament a la lliga " + this.nom);
+        System.out.println("Equip " + nouEquip + " s'ha afegit correctament a la lliga " + this.nom);
     }
 
     /**
@@ -96,9 +94,37 @@ public class Lliga {
     }
 
     public void consultarEquipsGolsFavor() {
+        FitxaEquip millor = null;
+        if (equips == null || equips.isEmpty()) {
+            System.out.println("No hi ha equips a la lliga.");
+        }else {
+            millor = equips.get(0);
+            for (FitxaEquip fitxaEquip : equips) {
+                if (fitxaEquip.getGolsFavor() > millor.getGolsFavor()) {
+                    millor = fitxaEquip;
+                }
+            }
+        }
+        if (millor != null) {
+            System.out.println("L'equip amb més gols a favor és "+ millor.getEquip().getNom() + " amb " + millor.getGolsFavor() + " gols.");
+        }
     }
 
     public void consultarEquipsGolsContra() {
+        FitxaEquip pitjor = null;
+        if (equips == null || equips.isEmpty()) {
+            System.out.println("No hi ha equips a la lliga.");
+        }else {
+            pitjor = equips.get(0);
+            for (FitxaEquip fitxaEquip : equips) {
+                if (fitxaEquip.getGolsContra() > pitjor.getGolsContra()) {
+                    pitjor = fitxaEquip;
+                }
+            }
+        }
+        if (pitjor != null) {
+            System.out.println("L'equip amb més gols en contra és "+ pitjor.getEquip().getNom() + " amb " + pitjor.getGolsContra() + " gols.");
+        }
     }
 
     /**
