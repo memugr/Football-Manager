@@ -132,9 +132,11 @@ public class Equip {
         return "----------\nDades d'equip\n" +
                 "Nom: " + nom +
                 "\nCiutat: " + ciutat +
-                "\nNom de l'estadi: " + nomEstadi +
-                "\nNom del president: " + nomPresident +
+                "\nNom de l'estadi: " + (nomEstadi != null ? nomEstadi : "No assignat") +
+                "\nNom del president: " + (nomPresident != null ? nomPresident : "No assignat") +
                 "\nAny de fundació: " + anyFundacio +
+                "\nEntrenador: " + (entrenador != null ? entrenador.getNom() + " " + entrenador.getCognom() : "No assignat") +
+                "\nJugadors: " + (jugadors.isEmpty() ? "Cap jugador" : getJugadors()) +
                 "\n----------";
     }
 

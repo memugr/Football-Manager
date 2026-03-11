@@ -369,7 +369,7 @@ public class Main {
             }
         }
 
-        System.out.println("\nFITXAR JUGADOR/A\nTens aquí tots els jugadors disponibles per fitxar:");
+        System.out.println("\nFITXAR JUGADOR/A\nTens aquí tots els jugadors/es disponibles per fitxar:");
         System.out.println("----------");
         getJugadorsDipoibles(jugadorsDisponibles);
         System.out.println("----------");
@@ -412,7 +412,6 @@ public class Main {
         return opcioUsuari;
     }
 
-
     private static void getJugadorsDipoibles(ArrayList<Jugador> jugadorsDisponibles) {
         for (int i = 0; i < jugadorsDisponibles.size(); i++) {
             System.out.println((i + 1) + ". " + jugadorsDisponibles.get(i).getNom() + " " + jugadorsDisponibles.get(i).getCognom());
@@ -420,6 +419,62 @@ public class Main {
     }
 
     private static void fitxarEntrenador(ArrayList<Equip> equips, ArrayList<Persona> mercatFitxatges) {
+        Scanner sc = new Scanner(System.in);
+
+        ArrayList<Entrenador> entrenadorsDisponibles = new ArrayList<>();
+        for (Persona p : mercatFitxatges) {
+            if (p instanceof Entrenador) {
+                entrenadorsDisponibles.add((Entrenador) p);
+            }
+        }
+
+        System.out.println("\nFITXAR ENTRENADOR/A\nTens aquí tots els entrenadors/es disponibles per fitxar:");
+        System.out.println("----------");
+        getEntrenadorsDisponibles(entrenadorsDisponibles);
+        System.out.println("----------");
+
+        int opcioUsuari = getOpcioEntrenador(entrenadorsDisponibles);
+        System.out.print("Indica l'equip per fitxar: ");
+        String nomEquip = sc.nextLine();
+
+        int posEquip = buscarPosicioEquip(equips, nomEquip);
+
+        if (posEquip != -1) {
+            System.out.println("Equip " + nomEquip + " trobat");
+
+            Entrenador entrenador = entrenadorsDisponibles.get(opcioUsuari);
+            Equip equip = equips.get(posEquip);
+            equip.fitxarEntrenador(entrenador);
+
+            mercatFitxatges.remove(opcioUsuari);
+        } else {
+            System.out.println("Equip " + nomEquip + " no existeix");
+        }
+    }
+
+    private static int getOpcioEntrenador(ArrayList<Entrenador> entrenadorsDisponibles) {
+        Scanner sc = new Scanner(System.in);
+        int opcioUsuari = -1;
+        do {
+            try {
+                System.out.print("Indica el número de l'entrenador/a a fitxar: ");
+                opcioUsuari = sc.nextInt() - 1;
+                sc.nextLine();
+                if (opcioUsuari < 0 || opcioUsuari >= entrenadorsDisponibles.size()) {
+                    System.out.println("Número invàlid, introdueix entre 1 i " + entrenadorsDisponibles.size());
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Caràcter invàlid, només números");
+                sc.nextLine();
+            }
+        } while (opcioUsuari < 0 || opcioUsuari >= entrenadorsDisponibles.size());
+        return opcioUsuari;
+    }
+
+    private static void getEntrenadorsDisponibles(ArrayList<Entrenador> entrenadorsDisponibles) {
+        for (int i = 0; i < entrenadorsDisponibles.size(); i++) {
+            System.out.println((i + 1) + ". " + entrenadorsDisponibles.get(i).getNom() + " " + entrenadorsDisponibles.get(i).getCognom());
+        }
     }
 
     public static void consultarDadesEquip(ArrayList<Equip> equips) {
