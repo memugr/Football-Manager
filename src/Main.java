@@ -18,21 +18,6 @@ public class Main {
         ArrayList<Equip> equips = new ArrayList<>();
         Lliga lliga = null;
 
-        Date data = new Date();
-
-        Equip equip1 = new Equip("FC Barcelona", "Barcelona", 1899);
-
-// Equip amb president
-        Equip equip2 = new Equip(1902, "Florentino Pérez", "Santiago Bernabéu", "Madrid", "Real Madrid");
-
-// Equip amb el mateix president per provar el missatge d'avís
-        Equip equip3 = new Equip(1903, "Enrique Cerezo", "Cívitas Metropolitano", "Madrid", "Atlético de Madrid");
-
-        equips.add(equip1);
-        equips.add(equip2);
-        equips.add(equip3);
-
-
         String fileName = "src/fitxers/mercat_fitxatges.txt";
         carregarFitxatges(fileName, mercatFitxatges);
 
