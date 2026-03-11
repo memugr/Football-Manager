@@ -137,13 +137,13 @@ public class Main {
                 donarAltaEquip(equips);
                 break;
             case 3:
-                //donar alta jugador o entrenador
+                donarAltaJugadorEntrenador(mercatFitxatges);
                 break;
             case 4:
-                //consultar dades equip
+                consultarDadesEquip(equips);
                 break;
             case 5:
-                //consultar dades jugador o entrenador
+                consultarDadesJugador(equips);
                 break;
             case 6:
                 //disputar lliga
@@ -157,6 +157,124 @@ public class Main {
             case 0:
                 //sortir
                 break;
+        }
+    }
+
+    private static void donarAltaJugadorEntrenador(ArrayList<Persona> mercatFitxatges) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Vols donar d'alta un Jugador (1) o un Entrenador (2)?");
+        int opcio = getOpcioPersona();
+
+
+        int motivacio = 5;
+        System.out.println("Introdueix el nom:");
+        String nomPersona = sc.nextLine();
+        System.out.println("Introdueix el cognom:");
+        String cognomPersona = sc.nextLine();
+
+        Date dataNaixement = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        boolean dataValida = false;
+        do {
+            try{
+                System.out.println("Introdueix la data de naixement (dd/MM/yyyy):");
+                dataNaixement = sdf.parse(sc.nextLine());
+                dataValida = true;
+            } catch(ParseException e){
+                System.out.println("Format incorrecte.");
+            }
+        }while(!dataValida);
+
+        double souAnual = 0;
+        boolean souValid = false;
+        do {
+            try{
+                System.out.println("Introdueix la date de sou anual:");
+                souAnual = sc.nextDouble();
+                sc.nextLine();
+                souValid = true;
+            }catch(InputMismatchException e){
+                System.out.println("Format incorrecte. Només números.");
+            }
+        }while(!souValid);
+        //jugador
+        if (opcio == 1) {
+
+            int dorsal = 0;
+            boolean dorsalvalid = false;
+            do {
+                try {
+                    System.out.println("Introdueix el número de dorsal:");
+                    dorsal = sc.nextInt();
+                    sc.nextLine();
+                    dorsalvalid = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Has d'introduir un número vàlid. Torna a provar.");
+                }
+            } while (!dorsalvalid);
+
+            String posicio = "";
+            boolean posicioValida = false;
+
+            System.out.println("Posicions disponibles:");
+            for (String pos : Jugador.POSICIONS_POSSIBLES) {
+                System.out.println(" * " + pos + "\n");
+            }
+            do {
+                System.out.println("Introduiex la posició del jugador:");
+                posicio = sc.nextLine();
+                posicioValida = false;
+                for (String pos : Jugador.POSICIONS_POSSIBLES) {
+                    if (pos.equalsIgnoreCase(posicio)) {
+                        posicioValida = true;
+                    }
+                }
+                if (!posicioValida) {
+                    System.out.println("Posició no vàlida. Torna a provar.");
+                }
+            } while (!posicioValida);
+
+            double qualitatJugador = Math.random() * 10;
+            Jugador jugador1 = new Jugador(nomPersona, cognomPersona, dataNaixement, motivacio, souAnual, dorsal, posicio, qualitatJugador);
+
+            mercatFitxatges.add(jugador1);
+            System.out.println("Jugador donat d'alta correctament!");
+
+        }else {//entrenador
+
+            int tornejos = 0;
+            boolean numValid = false;
+            do {
+                try {
+                    System.out.println("Introdueix el número de tornejos guanyats:");
+                    tornejos = sc.nextInt();
+                    sc.nextLine();
+                    numValid = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Error. Introdueix un número vàlid.");
+                }
+            } while (!numValid);
+
+            boolean esSeleccionadorNacional = false, respostaValida = false;
+            do {
+                System.out.println("És seleccionador nacional? (s/n)");
+                String resposta = sc.nextLine();
+
+                if (resposta.equalsIgnoreCase("s")) {
+                    esSeleccionadorNacional = true;
+                    respostaValida = true;
+                } else if (resposta.equalsIgnoreCase("n")) {
+                    esSeleccionadorNacional = false;
+                    respostaValida = true;
+                } else {
+                    System.out.println("Resposta no vàlida. Torna a provar.");
+                }
+            } while (!respostaValida);
+
+            Entrenador entrenador1 = new Entrenador(nomPersona, cognomPersona, dataNaixement,
+                    motivacio, souAnual, tornejos, esSeleccionadorNacional);
+            mercatFitxatges.add(entrenador1);
+            System.out.println("Entrenador donat d'alta correctament!");
         }
     }
 
@@ -215,6 +333,23 @@ public class Main {
             }
         }
         return false;
+    }
+
+    public static int getOpcioPersona() {
+        Scanner sc = new Scanner(System.in);
+        int opcioPersona = -1;
+        do {
+            try {
+                opcioPersona = sc.nextInt();
+                if (opcioPersona < 1 || opcioPersona > 2) {
+                    System.out.println("Opció no vàlida. Torna-ho a intentar.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Caràcter no vàlid. Només números.");
+                sc.nextLine();
+            }
+        } while (opcioPersona < 1 || opcioPersona > 2);
+        return opcioPersona;
     }
 
     public static int getOpcioAdmin () {
