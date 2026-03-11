@@ -22,6 +22,7 @@ public class Main {
         carregarFitxatges(fileName, mercatFitxatges);
 
         System.out.println("--------------------\n  Football Manager\n--------------------");
+        System.out.print("Ets administrador (1) o gestor d'equip (2)? ");
         int opcioUser = getOpcioUsuari();
         mostrarOpcionsPrograma(opcioUser, mercatFitxatges, equips, lliga);
     }
@@ -72,15 +73,13 @@ public class Main {
             br.close();
         } catch (FileNotFoundException e) {
             System.out.println("Error: Fitxer no trobat");
-        } catch (IOException e) {
-            System.out.println("Error llegint el fitxer");
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             System.out.println("Error llegint el fitxer");
         }
     }
 
     /**
-     * Demana a l'usuari si és Admin o Gestor d'Equips
+     * Guarda l'opció introduida per l'usuari 1 o 2
      * @return opció del tipus d'usuari
      */
     public static int getOpcioUsuari() {
@@ -89,7 +88,6 @@ public class Main {
 
         do {
             try {
-                System.out.print("Ets administrador (1) o gestor d'equip (2)? ");
                 opcio = sc.nextInt();
 
                 if (opcio < 1 || opcio > 2) {
@@ -181,16 +179,16 @@ public class Main {
                 veureClassificacio(lliga);
                 break;
             case 2:
-                mostrarGestionarEquip();
+                mostrarGestionarEquip(equips);
                 break;
             case 3:
                 consultarDadesEquip(equips);
                 break;
             case 4:
-                consultarDadesJugador(equips, mercatFitxatges);
+                consultarDadesJugador(equips);
                 break;
             case 5:
-                //transferirJugador();
+                transferirJugador(equips);
                 break;
             case 6:
                 //desarDadesEquips();
@@ -216,14 +214,14 @@ public class Main {
     /**
      * Mostra l'apartat de "Gestionar el Meu Equip"
      */
-    private static void mostrarGestionarEquip() {
-        System.out.println("\nGestió d'Equips");
+    private static void mostrarGestionarEquip(ArrayList<Equip> equips) {
+        System.out.print("\nGESTIÓ D'EQUIPOS");
         int opcioGestionarEquip;
 
         do {
             mostrarMenuGestionar();
             opcioGestionarEquip = getOpcioGestionarEquip();
-            opcionsProgramaGestionarEquips(opcioGestionarEquip);
+            opcionsProgramaGestionarEquips(opcioGestionarEquip, equips);
         } while (opcioGestionarEquip != 0);
     }
 
@@ -253,26 +251,98 @@ public class Main {
         return opcio;
     }
 
-    private static void opcionsProgramaGestionarEquips(int opcioGestionarEquip) {
+    private static void opcionsProgramaGestionarEquips(int opcioGestionarEquip, ArrayList<Equip> equips) {
         switch (opcioGestionarEquip) {
             case 1:
-                //donarBaixaEquip();
+                donarBaixaEquip(equips);
                 break;
             case 2:
-                //modificarPresident();
+                modificarPresident(equips);
                 break;
             case 3:
-                //destituirEntrenador();
+                destituirEntrenador(equips);
                 break;
             case 4:
-                //fitxarJugadorEntrenador();
+                fitxarJugadorEntrenador(equips);
                 break;
             case 0:
                 System.out.println("Sortint de Gestionar el meu equip, tornant al menú principal");
         }
     }
 
-    private static void consultarDadesEquip(ArrayList<Equip> equips) {
+    private static void donarBaixaEquip(ArrayList<Equip> equips) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nDONAR DE BAIXA EQUIP\nNom de l'equip: ");
+        String nomEquip = sc.nextLine();
+        int posEquip = buscarPosicioEquip(equips, nomEquip);
+
+        if (posEquip != -1) {
+            System.out.print("Equip " + nomEquip + " trobat\nSegur/a que vols eliminar " + nomEquip + "? Y/N ");
+            char respostaUsuari = getRespostaUsuari();
+
+            if (respostaUsuari == 'y') {
+                equips.remove(posEquip);
+                System.out.println("Equip " + nomEquip + " eliminat");
+            } else {
+                System.out.println("Operació cancel·lada");
+            }
+        } else {
+            System.out.println("Equip " + nomEquip + " no existeix");
+        }
+    }
+
+    private static void modificarPresident(ArrayList<Equip> equips) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nMODIFICAR PRESIDENT\nIndica l'equip: ");
+        String nomEquip = sc.nextLine();
+
+        int posEquip = buscarPosicioEquip(equips, nomEquip);
+
+        if (posEquip != -1) {
+            System.out.println("Equip " + nomEquip + " trobat");
+            System.out.print("Indica el nou president: ");
+            String nouPresident = sc.nextLine();
+
+            equips.get(posEquip).modificarPresident(nouPresident);
+        } else {
+            System.out.println("Equip no existeix");
+        }
+    }
+
+    private static void destituirEntrenador(ArrayList<Equip> equips) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nDESTITUIR ENTRENADOR\nIndica l'equip: ");
+        String nomEquip = sc.nextLine();
+
+        int posEquip = buscarPosicioEquip(equips, nomEquip);
+
+        if (posEquip != -1) {
+            Equip equip = equips.get(posEquip);
+            System.out.println("Equip " + nomEquip + " trobat");
+
+            if (equip.getEntrenador() == null) {
+                System.out.println("Aquest equip no té cap entrenador assignat.");
+            } else {
+                String nomEntrenadorComplet = equip.getEntrenador().getNom() + " " + equip.getEntrenador().getCognom();
+                System.out.print("Segur que vols destituir " + nomEntrenadorComplet + "? Y/N ");
+                char respostaUsuari = getRespostaUsuari();
+
+                if (respostaUsuari == 'y') {
+                    equip.destituirEntrenador();
+                } else {
+                    System.out.println("Operació cancel·lada");
+                }
+            }
+        } else {
+            System.out.println("Equip " + nomEquip + " no existeix");
+        }
+    }
+
+    private static void fitxarJugadorEntrenador(ArrayList<Equip> equips) {
+        System.out.println("FITXATGE JUGADOR");
+    }
+
+    public static void consultarDadesEquip(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nBUSCADOR EQUIP\nIntrodueix el nom de l'equip: ");
         String nomEquipTrobar = sc.nextLine();
@@ -280,14 +350,14 @@ public class Main {
 
         if (pos != -1) {
             Equip eq = equips.get(pos);
-            System.out.println("\nEquip trobat");
+            System.out.println("\nEquip " + nomEquipTrobar + " trobat");
             System.out.println(eq.toString());
         } else {
-            System.out.println("Equip " + nomEquipTrobar + " no s'ha trobat");
+            System.out.println("Equip " + nomEquipTrobar + " no existeix");
         }
     }
 
-    private static int buscarPosicioEquip(ArrayList<Equip> equips, String nomEquipTrobar) {
+    public static int buscarPosicioEquip(ArrayList<Equip> equips, String nomEquipTrobar) {
         boolean trobat = false;
         int i = 0, pos = -1;
 
@@ -301,25 +371,129 @@ public class Main {
         return pos;
     }
 
-    private static void consultarDadesJugador(ArrayList<Equip> equips, ArrayList<Persona> mercatFitxatges) {
+    public static void consultarDadesJugador(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nBUSCADOR JUGADOR/A\nPrimer introdueix l'equip del jugador/a ");
         String nomEquipTrobar = sc.nextLine();
         int posEquip = buscarPosicioEquip(equips, nomEquipTrobar);
 
         if (posEquip != -1) {
-            System.out.print("\nEquip trobat, introdueix el nom del jugador/a: ");
+            System.out.print("Equip trobat, introdueix el nom del jugador/a: ");
             String nomJugadorTrobar = sc.nextLine();
-            System.out.print("\nIntrodueix el dorsal del jugador/a: ");
+            System.out.print("Introdueix el dorsal del jugador/a: ");
             int dorsalJugadorTrobar = sc.nextInt();
 
             Equip eq = equips.get(posEquip);
+            int posJugador = buscarPosicioJugador(eq, nomJugadorTrobar, dorsalJugadorTrobar);
 
-
-
+            if (posJugador != -1) {
+                System.out.println("\nJugador " + nomJugadorTrobar + " trobat");
+                System.out.println(eq.getJugadors().get(posJugador));
+            } else {
+                System.out.println("\nJugador " + nomJugadorTrobar + " no trobat");
+            }
         } else {
-            System.out.println("Equip o jujador no s'ha trobat");
+            System.out.println("Equip " + nomEquipTrobar + " no existeix");
         }
+    }
 
+    public static int buscarPosicioJugador(Equip eq, String nomJugadorTrobar, int dorsalJugadorTrobar) {
+        int i = 0, pos = -1;
+        boolean trobat = false;
+
+        while (!trobat && i < eq.getJugadors().size()) {
+            Jugador j = eq.getJugadors().get(i);
+            if (j.getNom().equalsIgnoreCase(nomJugadorTrobar) && j.getDorsal() == dorsalJugadorTrobar) {
+                trobat = true;
+                pos = i;
+            }
+            i++;
+        }
+        return pos;
+    }
+
+    private static void transferirJugador(ArrayList<Equip> equips) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nTRANSFERÈNCIA DE JUGADOR/A\nEquip original: ");
+        String nomEquipOriginal = sc.nextLine();
+        System.out.print("Equip destinació: ");
+        String nomEquipDestinacio = sc.nextLine();
+
+        int posEquipOriginal = buscarPosicioEquip(equips, nomEquipOriginal);
+        int posEquipDesinacio = buscarPosicioEquip(equips, nomEquipDestinacio);
+
+        if (posEquipOriginal != -1 && posEquipDesinacio != -1) {
+            System.out.print("\nPerfecte, els 2 equips existeixen\nIntrodueix el nom del jugador/a: ");
+            String nomJugadorTrobar = sc.nextLine();
+            System.out.print("Introdueix el dorsal del jugador/a: ");
+            int dorsalJugadorTrobar = sc.nextInt();
+
+            Equip eqOriginal =  equips.get(posEquipOriginal);
+            Equip eqDestinacio =  equips.get(posEquipDesinacio);
+
+            int posJugador = buscarPosicioJugador(eqOriginal, nomJugadorTrobar, dorsalJugadorTrobar);
+
+            if (posJugador != -1) {
+                System.out.println("\nJugador " + nomJugadorTrobar + " trobat");
+                System.out.print("Vols transferir " + nomJugadorTrobar + " (Equip original: " + eqOriginal.getNom() +
+                        ") al equip " + eqDestinacio.getNom() + "? Y/N ");
+
+                char respostaUsuari = getRespostaUsuari();
+
+                if (respostaUsuari == 'y') {
+                    Jugador jugador = eqOriginal.getJugadors().get(posJugador);
+
+                    // Verificar que el dorsal no estigui ocupat a l'equip destí
+                    int posJugadorDestinacio = buscarPosicioJugadorDorsal(eqDestinacio, jugador.getDorsal());
+
+                    while (posJugadorDestinacio != -1) {
+                        System.out.print("El dorsal " + jugador.getDorsal() + " ja està ocupat. Introdueix un nou dorsal: ");
+                        int nouDorsal = sc.nextInt();
+                        posJugadorDestinacio = buscarPosicioJugadorDorsal(eqDestinacio, nouDorsal);
+
+                        if (posJugadorDestinacio == -1) {
+                            jugador.setDorsal(nouDorsal);
+                        }
+                    }
+
+                    eqOriginal.getJugadors().remove(posJugador);
+                    eqDestinacio.getJugadors().add(jugador);
+                    System.out.println("Jugador " + nomJugadorTrobar + " transferit correctament a " + eqDestinacio.getNom());
+                } else {
+                    System.out.println("Transferència cancel·lada");
+                }
+            }
+        } else {
+            System.out.println("No s'ha pogut trobar alguns dels equips indicats");
+        }
+    }
+
+    public static char getRespostaUsuari() {
+        Scanner sc = new Scanner(System.in);
+        char respostaUsuari;
+
+        do {
+            respostaUsuari = sc.next().toLowerCase().charAt(0);
+
+            if (respostaUsuari != 'y' && respostaUsuari != 'n') {
+                System.out.println("Resposta invàlida, només y o n");
+            }
+        } while (respostaUsuari != 'y' && respostaUsuari != 'n');
+
+        return respostaUsuari;
+    }
+
+    private static int buscarPosicioJugadorDorsal(Equip eq, int dorsal) {
+        int i = 0, pos = -1;
+        boolean trobat = false;
+
+        while (!trobat && i < eq.getJugadors().size()) {
+            if (eq.getJugadors().get(i).getDorsal() == dorsal) {
+                trobat = true;
+                pos = i;
+            }
+            i++;
+        }
+        return pos;
     }
 }

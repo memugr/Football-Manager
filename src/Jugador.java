@@ -49,7 +49,6 @@ public class Jugador extends Persona {
         this.dorsal = dorsal;
         this.posicio = posicio;
         this.qualitat = qualitat;
-
     }
 
     //Getters
@@ -130,7 +129,8 @@ public class Jugador extends Persona {
      */
     @Override
     public String toString() {
-        return super.toString() + '\n' +
+        return "Jugador: " + '\n' +
+                super.toString() + '\n' +
                 "Dorsal: " + dorsal + '\n' +
                 "Posició: " + posicio + '\n' +
                 "Qualitat: " + qualitat;

@@ -120,7 +120,7 @@ public class Lliga {
                         "\nPartits disputats: " + eq.getPartitsDisputats() +
                         "\nGols a Favor: " + eq.getGolsFavor() +
                         "\nGols en Contra: " + eq.getGolsContra() +
-                        "\nFiferència de gols: " + eq.getDiferenciaGols());
+                        "\nDiferència de gols: " + eq.getDiferenciaGols());
             }
             System.out.println("----------");
         }
