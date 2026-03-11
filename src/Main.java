@@ -155,7 +155,7 @@ public class Main {
                 //desar dades equips
                 break;
             case 0:
-                //sortir
+                System.out.println("Fins després, Admin!");
                 break;
         }
     }
