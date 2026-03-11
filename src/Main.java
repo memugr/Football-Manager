@@ -30,7 +30,7 @@ public class Main {
     private static void mostrarOpcionsPrograma(int opcioUser, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga) {
         switch (opcioUser) {
             case 1:
-                mostrarAdmin();
+                mostrarAdmin(mercatFitxatges, equips, lliga);
                 break;
             case 2:
                 mostrarGestor(mercatFitxatges, equips, lliga);
@@ -104,8 +104,14 @@ public class Main {
 
     // ADMIN (Abi)
 
-    public static void mostrarAdmin() {
-        mostrarMenuAdmin();
+    public static void mostrarAdmin(ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga) {
+        System.out.println("Benvingut al Politècnics Football Manager, Admin.");
+        int opcioAdmin;
+        do {
+            mostrarMenuAdmin();
+            opcioAdmin = getOpcioAdmin();
+            opcionsProgramaAdmin(opcioAdmin, mercatFitxatges, equips, lliga);
+        } while (opcioAdmin != 0);
     }
 
     private static void mostrarMenuAdmin() {
@@ -122,8 +128,109 @@ public class Main {
                 "\n8. Desar dades dels equips." +
                 "\n0. Sortir.");
     }
+    public static void opcionsProgramaAdmin (int opcioAmin, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga){
+        switch (opcioAmin){
+            case 1:
+                veureClassificacio(lliga);
+                break;
+            case 2:
+                donarAltaEquip(equips);
+                break;
+            case 3:
+                //donar alta jugador o entrenador
+                break;
+            case 4:
+                //consultar dades equip
+                break;
+            case 5:
+                //consultar dades jugador o entrenador
+                break;
+            case 6:
+                //disputar lliga
+                break;
+            case 7:
+                //realitzar entrenament
+                break;
+            case 8:
+                //desar dades equips
+                break;
+            case 0:
+                //sortir
+                break;
+        }
+    }
+
+    private static void donarAltaEquip(ArrayList<Equip> equips) {
+        Scanner sc = new Scanner(System.in);
+        String nomEquipNou;
+        boolean existeixEquip;
+        do {
+            System.out.println("Escriu el nom de l'equip.");
+            nomEquipNou = sc.nextLine();
+
+            if(comprobarExisteixEquip(equips, nomEquipNou)){
+                System.out.println("Aquest equip ja está donat d'alta. Torna-ho a intentar.");
+            }
+        } while (comprobarExisteixEquip(equips, nomEquipNou));
+
+        int anyFundacio = 0;
+        boolean valid = false;
+
+        do {
+            try {
+                System.out.println("Introdueix l'any de fundació:");
+                anyFundacio = Integer.parseInt(sc.nextLine());
+                valid = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Error: has d'introduir un número vàlid.");
+            }
+        } while (!valid);
 
 
+        System.out.println("Introdueix el nom de la ciutat:");
+        String nomCiutat = sc.nextLine();
+
+        System.out.println("Vols introduïr el nom de l'estadi? (s/n)");
+        String nomEstadi = null, nomPresident = null;
+        if (sc.nextLine().equalsIgnoreCase("s")) {
+            System.out.println("Introdueix el nom de l'estadi:");
+            nomEstadi = sc.nextLine();
+        }else{
+            System.out.println("Vols introduïr el nom del president? (s/n)");
+            if (sc.nextLine().equalsIgnoreCase("s")) {
+                System.out.println("Introdueix el nom del president:");
+                nomPresident = sc.nextLine();
+            }
+        }
+
+        Equip nouEquip = new Equip(anyFundacio, nomPresident, nomEstadi, nomCiutat, nomEquipNou);
+        equips.add(nouEquip);
+        System.out.println("El nou equip s'ha afegit correctament!");
+    }
+
+    private static boolean comprobarExisteixEquip(ArrayList<Equip> equips, String nomEquipNou) {
+        for(Equip e : equips) {
+            if (e.getNom().equalsIgnoreCase(nomEquipNou)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int getOpcioAdmin () {
+        Scanner sc = new Scanner(System.in);
+        int opcio = -1;
+        try {
+            opcio = sc.nextInt();
+            if (opcio < 0 || opcio > 8) {
+                System.out.println("Opció no vàlida.");
+            }
+        }catch (InputMismatchException e) {
+            System.out.println("Caràcter no vàlid. Només números.");
+            sc.nextLine();
+        }
+        return opcio;
+    }
 
     //----------------------------------------------------------------------------------------------------//
     //GESTOR D'EQUIPS (Mei)
