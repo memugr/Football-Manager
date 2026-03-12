@@ -116,7 +116,6 @@ public class Main {
     }
 
     private static void mostrarMenuAdmin() {
-        System.out.println("Escull una opció: ");
         System.out.println("-----\nMenú:\n-----");
         System.out.println("1. Veure classificació lliga actual." +
                 "\n2. Donar d'alta un equip." +
@@ -127,6 +126,7 @@ public class Main {
                 "\n7. Realitzar sessió d'entrenament (del mercat de fitxatges)." +
                 "\n8. Desar dades dels equips." +
                 "\n0. Sortir.");
+        System.out.print("Escull una opció: ");
     }
     public static void opcionsProgramaAdmin (int opcioAmin, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga){
         switch (opcioAmin){
@@ -152,7 +152,7 @@ public class Main {
                 //realitzar entrenament
                 break;
             case 8:
-                //desar dades equips
+                desarDadesEquips(equips);
                 break;
             case 0:
                 System.out.println("Fins després, Admin!");
@@ -162,10 +162,11 @@ public class Main {
 
     private static void donarAltaEquip(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
+        System.out.println("\nDONAR D'ALTA A UN EQUIP");
         String nomEquipNou;
 
         do {
-            System.out.println("Escriu el nom de l'equip.");
+            System.out.print("Escriu el nom de l'equip: ");
             nomEquipNou = sc.nextLine();
 
             if(comprobarExisteixEquip(equips, nomEquipNou)){
@@ -176,30 +177,42 @@ public class Main {
         int anyFundacio = 0;
         boolean valid = false;
 
+        int anyActual = java.time.Year.now().getValue();
+
         do {
             try {
-                System.out.println("Introdueix l'any de fundació:");
+                System.out.print("Introdueix l'any de fundació: ");
                 anyFundacio = Integer.parseInt(sc.nextLine());
-                valid = true;
+
+                if (String.valueOf(anyFundacio).length() != 4) {
+                    System.out.println("Error: l'any ha de tenir 4 dígits.");
+                } else if (anyFundacio > anyActual) {
+                    System.out.println("Error: l'any no pot ser superior a l'any actual (" + anyActual + ").");
+                } else {
+                    valid = true;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Error: has d'introduir un número vàlid.");
             }
         } while (!valid);
 
-        System.out.println("Introdueix el nom de la ciutat:");
+        System.out.print("Introdueix el nom de la ciutat: ");
         String nomCiutat = sc.nextLine();
 
-        System.out.println("Vols introduïr el nom de l'estadi? (s/n)");
         String nomEstadi = null, nomPresident = null;
-        if (sc.nextLine().equalsIgnoreCase("s")) {
-            System.out.println("Introdueix el nom de l'estadi:");
+
+        System.out.print("Vols introduïr el nom de l'estadi? (s/n) ");
+        char respostaEstadi = getRespostaUsuari();
+        if (respostaEstadi == 's') {
+            System.out.print("Introdueix el nom de l'estadi: ");
             nomEstadi = sc.nextLine();
-        } else{
-            System.out.println("Vols introduïr el nom del president? (s/n)");
-            if (sc.nextLine().equalsIgnoreCase("s")) {
-                System.out.println("Introdueix el nom del president:");
-                nomPresident = sc.nextLine();
-            }
+        }
+
+        System.out.print("Vols introduïr el nom del president? (s/n) ");
+        char respostaPresident = getRespostaUsuari();
+        if (respostaPresident == 's') {
+            System.out.print("Introdueix el nom del president: ");
+            nomPresident = sc.nextLine();
         }
 
         Equip nouEquip = new Equip(anyFundacio, nomPresident, nomEstadi, nomCiutat, nomEquipNou);
@@ -209,13 +222,13 @@ public class Main {
 
     private static void donarAltaJugadorEntrenador(ArrayList<Persona> mercatFitxatges) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Vols donar d'alta un Jugador (1) o un Entrenador (2)?");
+        System.out.print("Vols donar d'alta un Jugador (1) o un Entrenador (2)? ");
         int opcio = getOpcioPersona();
 
         int motivacio = 5;
-        System.out.println("Introdueix el nom:");
+        System.out.print("Introdueix el nom: ");
         String nomPersona = sc.nextLine();
-        System.out.println("Introdueix el cognom:");
+        System.out.print("Introdueix el cognom: ");
         String cognomPersona = sc.nextLine();
 
         Date dataNaixement = null;
@@ -224,7 +237,7 @@ public class Main {
 
         do {
             try{
-                System.out.println("Introdueix la data de naixement (dd/MM/yyyy):");
+                System.out.print("Introdueix la data de naixement (dd/MM/yyyy): ");
                 dataNaixement = sdf.parse(sc.nextLine());
                 dataValida = true;
             } catch(ParseException e){
@@ -236,7 +249,7 @@ public class Main {
         boolean souValid = false;
         do {
             try{
-                System.out.println("Introdueix la date de sou anual:");
+                System.out.print("Introdueix el sou anual: ");
                 souAnual = sc.nextDouble();
                 sc.nextLine();
                 souValid = true;
@@ -247,12 +260,12 @@ public class Main {
 
         //jugador
         if (opcio == 1) {
-
             int dorsal = 0;
             boolean dorsalvalid = false;
+
             do {
                 try {
-                    System.out.println("Introdueix el número de dorsal:");
+                    System.out.print("Introdueix el número de dorsal: ");
                     dorsal = sc.nextInt();
                     sc.nextLine();
                     dorsalvalid = true;
@@ -266,11 +279,11 @@ public class Main {
 
             System.out.println("Posicions disponibles:");
             for (String pos : Jugador.POSICIONS_POSSIBLES) {
-                System.out.println(" * " + pos + "\n");
+                System.out.println(" * " + pos);
             }
 
             do {
-                System.out.println("Introduiex la posició del jugador:");
+                System.out.print("Introduiex la posició del jugador: ");
                 posicio = sc.nextLine();
                 posicioValida = false;
                 for (String pos : Jugador.POSICIONS_POSSIBLES) {
@@ -294,7 +307,7 @@ public class Main {
             boolean numValid = false;
             do {
                 try {
-                    System.out.println("Introdueix el número de tornejos guanyats:");
+                    System.out.print("Introdueix el número de tornejos guanyats: ");
                     tornejos = sc.nextInt();
                     sc.nextLine();
                     numValid = true;
@@ -303,21 +316,13 @@ public class Main {
                 }
             } while (!numValid);
 
-            boolean esSeleccionadorNacional = false, respostaValida = false;
-            do {
-                System.out.println("És seleccionador nacional? (s/n)");
-                String resposta = sc.nextLine();
+            boolean esSeleccionadorNacional = false;
+            System.out.print("És seleccionador nacional? (s/n) ");
+            char resposta = getRespostaUsuari();
 
-                if (resposta.equalsIgnoreCase("s")) {
-                    esSeleccionadorNacional = true;
-                    respostaValida = true;
-                } else if (resposta.equalsIgnoreCase("n")) {
-                    esSeleccionadorNacional = false;
-                    respostaValida = true;
-                } else {
-                    System.out.println("Resposta no vàlida. Torna a provar.");
-                }
-            } while (!respostaValida);
+            if (resposta == 's') {
+                esSeleccionadorNacional = true;
+            }
 
             Entrenador entrenador1 = new Entrenador(nomPersona, cognomPersona, dataNaixement,
                     motivacio, souAnual, tornejos, esSeleccionadorNacional);
@@ -524,10 +529,10 @@ public class Main {
         int posEquip = buscarPosicioEquip(equips, nomEquip);
 
         if (posEquip != -1) {
-            System.out.print("Equip " + nomEquip + " trobat\nSegur/a que vols eliminar " + nomEquip + "? Y/N ");
+            System.out.print("Equip " + nomEquip + " trobat\nSegur/a que vols eliminar " + nomEquip + "? S/N ");
             char respostaUsuari = getRespostaUsuari();
 
-            if (respostaUsuari == 'y') {
+            if (respostaUsuari == 's') {
                 equips.remove(posEquip);
                 System.out.println("Equip " + nomEquip + " eliminat");
             } else {
@@ -571,10 +576,10 @@ public class Main {
                 System.out.println("Aquest equip no té cap entrenador assignat.");
             } else {
                 String nomEntrenadorComplet = equip.getEntrenador().getNom() + " " + equip.getEntrenador().getCognom();
-                System.out.print("Segur que vols destituir " + nomEntrenadorComplet + "? Y/N ");
+                System.out.print("Segur que vols destituir " + nomEntrenadorComplet + "? S/N ");
                 char respostaUsuari = getRespostaUsuari();
 
-                if (respostaUsuari == 'y') {
+                if (respostaUsuari == 's') {
                     Entrenador entrenadorDestituir = equip.getEntrenador();
                     equip.destituirEntrenador();
                     mercatFitxatges.add(entrenadorDestituir);
@@ -706,6 +711,7 @@ public class Main {
                 System.out.print("Indica el número de l'entrenador/a a fitxar: ");
                 opcioUsuari = sc.nextInt() - 1;
                 sc.nextLine();
+
                 if (opcioUsuari < 0 || opcioUsuari >= entrenadorsDisponibles.size()) {
                     System.out.println("Número invàlid, introdueix entre 1 i " + entrenadorsDisponibles.size());
                 }
@@ -817,11 +823,11 @@ public class Main {
             if (posJugador != -1) {
                 System.out.println("\nJugador " + nomJugadorTrobar + " trobat");
                 System.out.print("Vols transferir " + nomJugadorTrobar + " (Equip original: " + eqOriginal.getNom() +
-                        ") al equip " + eqDestinacio.getNom() + "? Y/N ");
+                        ") a l'equip " + eqDestinacio.getNom() + "? S/N ");
 
                 char respostaUsuari = getRespostaUsuari();
 
-                if (respostaUsuari == 'y') {
+                if (respostaUsuari == 's') {
                     Jugador jugador = eqOriginal.getJugadors().get(posJugador);
 
                     // Verificar que el dorsal no estigui ocupat a l'equip destí
@@ -856,15 +862,15 @@ public class Main {
         do {
             respostaUsuari = sc.next().toLowerCase().charAt(0);
 
-            if (respostaUsuari != 'y' && respostaUsuari != 'n') {
+            if (respostaUsuari != 's' && respostaUsuari != 'n') {
                 System.out.println("Resposta invàlida, només y o n");
             }
-        } while (respostaUsuari != 'y' && respostaUsuari != 'n');
+        } while (respostaUsuari != 's' && respostaUsuari != 'n');
 
         return respostaUsuari;
     }
 
-    private static int buscarPosicioJugadorDorsal(Equip eq, int dorsal) {
+    public static int buscarPosicioJugadorDorsal(Equip eq, int dorsal) {
         int i = 0, pos = -1;
         boolean trobat = false;
 
@@ -878,7 +884,7 @@ public class Main {
         return pos;
     }
 
-    private static void desarDadesEquips(ArrayList<Equip> equips) {
+    public static void desarDadesEquips(ArrayList<Equip> equips) {
         String fileName = "src/fitxers/data_equips.txt";
 
         String info = "";
