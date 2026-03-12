@@ -622,7 +622,7 @@ public class Main {
 
         System.out.println("\nFITXAR JUGADOR/A\nTens aquí tots els jugadors/es disponibles per fitxar:");
         System.out.println("----------");
-        getJugadorsDipoibles(jugadorsDisponibles);
+        getJugadorsDisponibles(jugadorsDisponibles);
         System.out.println("----------");
 
         int opcioUsuari = getOpcioJugador(jugadorsDisponibles);
@@ -663,7 +663,8 @@ public class Main {
         return opcioUsuari;
     }
 
-    private static void getJugadorsDipoibles(ArrayList<Jugador> jugadorsDisponibles) {
+    private static void getJugadorsDisponibles(ArrayList<Jugador> jugadorsDisponibles) {
+        System.out.println("Total de jugadors/es disponibles: " + jugadorsDisponibles.size());
         for (int i = 0; i < jugadorsDisponibles.size(); i++) {
             System.out.println((i + 1) + ". " + jugadorsDisponibles.get(i).getNom() + " " + jugadorsDisponibles.get(i).getCognom());
         }
@@ -724,6 +725,7 @@ public class Main {
     }
 
     private static void getEntrenadorsDisponibles(ArrayList<Entrenador> entrenadorsDisponibles) {
+        System.out.println("Total d'entrenadors/es disponibles: " + entrenadorsDisponibles.size());
         for (int i = 0; i < entrenadorsDisponibles.size(); i++) {
             System.out.println((i + 1) + ". " + entrenadorsDisponibles.get(i).getNom() + " " + entrenadorsDisponibles.get(i).getCognom());
         }
@@ -896,7 +898,7 @@ public class Main {
             bw.write(info);
             System.out.println("Tots els equips s'han guardat correctament");
         } catch (IOException e) {
-            System.out.println("Error writing file");
+            System.out.println("Error en escriure al fitxer");
         }
     }
 }

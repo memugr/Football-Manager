@@ -13,10 +13,6 @@ public class Jugador extends Persona {
      * Posicions finals del jugador
      */
     public static final String[] POSICIONS_POSSIBLES = {"POR", "DEF", "MIG", "DAV"};
-    /**
-     * Comptador per saber quants jugadors existeixen
-     */
-    private static int comptadorJugadors = 0;
 
     /**
      * Dorsal del jugador
@@ -92,7 +88,7 @@ public class Jugador extends Persona {
     }
 
     /**
-     * Executa la classe pare i augmente la qualitat del jugador a partir d'un número aleatori
+     * Executa la classe pare i augmenta la qualitat del jugador a partir d'un número aleatori
      */
     @Override
     public void entrenament() {
@@ -110,16 +106,6 @@ public class Jugador extends Persona {
         } else {
             qualitat += 0.3;
             System.out.println("Qualitat augmentada en 0.3. Nova qualitat: " + qualitat);
-        }
-    }
-
-    /**
-     * Ensenya per pantalla les posicions possibles per un jugador
-     */
-    public void ensenyarPosicionsPossibles() {
-        System.out.println("Possicions possibles: ");
-        for (int i = 0; i < POSICIONS_POSSIBLES.length; i++) {
-            System.out.println((i + 1) + ". " + POSICIONS_POSSIBLES[i]);
         }
     }
 
