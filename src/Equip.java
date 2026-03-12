@@ -171,11 +171,11 @@ public class Equip {
     }
 
     /**
-     * Mostra tots els jugadors de l'equip.
+     * Mostra tots els jugadors de l'equip ordenat per la seva posició
      * Si no n'hi ha cap, informa l'usuari.
      *
-     * @return
-     * @see ComparatorJugadorPosicio
+     * @return el llistat de jugadors de l'equip
+     * @see ComparatorJugadorPosicio comparador per posició
      */
     public boolean mostrarJugadors() {
         if (jugadors.isEmpty()) {

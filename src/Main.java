@@ -476,6 +476,9 @@ public class Main {
         } while (opcioGestor != 0);
     }
 
+    /**
+     * Mostra el menú de gestor d'equips per pantalla
+     */
     public static void mostrarMenuGestor() {
         System.out.println("\n1. Veure classificació lliga actual");
         System.out.println("2. Gestionar el meu equip ⚽");
@@ -487,6 +490,11 @@ public class Main {
         System.out.print("Selecciona una opció: ");
     }
 
+    /**
+     * Guarda l'opció de l'1 al 6 pel menú de gestor d'equips
+     *
+     * @return l'opció escollida
+     */
     private static int getOpcioGestor() {
         Scanner sc = new Scanner(System.in);
         int opcio = -1;
@@ -504,6 +512,14 @@ public class Main {
         return opcio;
     }
 
+    /**
+     * Gestiona les opcions del menú de gestor d'equips
+     *
+     * @param opcioGestor
+     * @param mercatFitxatges
+     * @param equips
+     * @param lliga
+     */
     public static void opcionsProgramaGestor(int opcioGestor, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga) {
         switch (opcioGestor) {
             case 1:
@@ -532,6 +548,7 @@ public class Main {
 
     /**
      * Mostra la classificació de la lliga
+     * Comprova que la lliga existeix
      *
      * @param lliga
      */
@@ -557,6 +574,9 @@ public class Main {
         } while (opcioGestionarEquip != 0);
     }
 
+    /**
+     * Mostra el menu de "Gestionar El Meu Equip"
+     */
     private static void mostrarMenuGestionar() {
         System.out.println("\n1. Donar de baixa l'equip");
         System.out.println("2. Modificar president/a");
@@ -566,6 +586,11 @@ public class Main {
         System.out.print("Selecciona la teva opció: ");
     }
 
+    /**
+     * Guarda l'opció entre l'1 al 4 pel sub-menú de "Gestionar El Meu Equip"
+     *
+     * @return l'opció escollida
+     */
     private static int getOpcioGestionarEquip() {
         Scanner sc = new Scanner(System.in);
         int opcio = -1;
@@ -583,6 +608,13 @@ public class Main {
         return opcio;
     }
 
+    /**
+     * Gestiona el sub-menú de "Gestionar El Meu Equip"
+     *
+     * @param opcioGestionarEquip opció de l'usuari
+     * @param equips l'array d'equips
+     * @param mercatFitxatges l'array de mercat de fitxatges
+     */
     private static void opcionsProgramaGestionarEquips(int opcioGestionarEquip, ArrayList<Equip> equips, ArrayList<Persona> mercatFitxatges) {
         switch (opcioGestionarEquip) {
             case 1:
@@ -602,6 +634,13 @@ public class Main {
         }
     }
 
+    /**
+     * Dona de baixa a un equip
+     * Comprova que l'equip existeix
+     * Elimina l'objecte del tipus Equip de l'array d'equips
+     *
+     * @param equips array d'equips
+     */
     private static void donarBaixaEquip(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nDONAR DE BAIXA EQUIP\nNom de l'equip: ");
@@ -623,6 +662,13 @@ public class Main {
         }
     }
 
+    /**
+     * Modifica el president d'un equip
+     * Verifica que l'equip existeix
+     * Afegeix el nou president a l'equip indicat
+     *
+     * @param equips l'array d'equips
+     */
     private static void modificarPresident(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nMODIFICAR PRESIDENT\nIndica l'equip: ");
@@ -641,6 +687,15 @@ public class Main {
         }
     }
 
+
+    /**
+     * Destitueix l'entrenador d'un equip.
+     * Comprova que l'equip existeix
+     * Un cop destituit, l'entrenador és afegit al mercat de fitxatges
+     *
+     * @param equips l'array d'equips
+     * @param mercatFitxatges l'array de mercat de fitxatges
+     */
     private static void destituirEntrenador(ArrayList<Equip> equips, ArrayList<Persona> mercatFitxatges) {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nDESTITUIR ENTRENADOR\nIndica l'equip: ");
@@ -672,6 +727,12 @@ public class Main {
         }
     }
 
+    /**
+     * Mostra l'apartat principal per fitxar un jugador o entrenador
+     *
+     * @param equips l'array d'equips
+     * @param mercatFitxatges l'array de mercat de fitxatges
+     */
     private static void fitxarJugadorEntrenador(ArrayList<Equip> equips, ArrayList<Persona> mercatFitxatges) {
         System.out.println("FITXATGE JUGADOR/ENTRENADOR");
         System.out.print("Indica el tipus de fitxatge; jugador/a (1) o entrenador/a (2): ");
@@ -680,6 +741,13 @@ public class Main {
         mostrarFitxatges(opcioUsuari, equips, mercatFitxatges);
     }
 
+    /**
+     * Gestiona l'apartat segons si es vol fitxar un jugador o a un entrenador
+     *
+     * @param opcioUsuari l'opció de l'usuari
+     * @param equips l'array d'equips
+     * @param mercatFitxatges l'array de mercat de fitxatges
+     */
     private static void mostrarFitxatges(int opcioUsuari, ArrayList<Equip> equips, ArrayList<Persona> mercatFitxatges) {
         switch (opcioUsuari) {
             case 1:
@@ -690,6 +758,15 @@ public class Main {
         }
     }
 
+    /**
+     * Fitxa a un jugador del mercat de fitxatges a un equip.
+     * Ensenya primer els jugadors disponibles a fitxar
+     * Comprova que l'equip existeix
+     * Afegeix el jugador a l'equip indicat
+     *
+     * @param equips l'array d'equips
+     * @param mercatFitxatges l'array de mercat de fitxatges
+     */
     private static void fitxarJugador(ArrayList<Equip> equips, ArrayList<Persona> mercatFitxatges) {
         Scanner sc = new Scanner(System.in);
 
@@ -724,6 +801,12 @@ public class Main {
         }
     }
 
+    /**
+     * Guarda la posició del jugador a fitxar
+     *
+     * @param jugadorsDisponibles l'array amb els jugadors disponibles
+     * @return l'opció de l'usuari per fitxar a un jugador/a
+     */
     private static int getOpcioJugador(ArrayList<Jugador> jugadorsDisponibles) {
         Scanner sc = new Scanner(System.in);
         int opcioUsuari = -1;
@@ -743,6 +826,13 @@ public class Main {
         return opcioUsuari;
     }
 
+    /**
+     * Mostra els jugadors disponibles per pantalla
+     * És ordenat segons la qualitat del jugador
+     *
+     * @param jugadorsDisponibles l'array dels jugadors disponibles
+     * @see ComparatorJugadorQualitat Comparador per qualitat
+     */
     private static void getJugadorsDisponibles(ArrayList<Jugador> jugadorsDisponibles) {
         jugadorsDisponibles.sort(new ComparatorJugadorQualitat());
         System.out.println("Total de jugadors/es disponibles: " + jugadorsDisponibles.size());
@@ -754,6 +844,15 @@ public class Main {
         }
     }
 
+    /**
+     * Fitxa a un entrenador/a del mercat de fitxatges a un equip.
+     * Ensenya primer els entrenadors/es disponibles a fitxar
+     * Comprova que l'equip existeix
+     * Afegeix a l'entrenador/a a l'equip indicat
+     *
+     * @param equips l'array d'equips
+     * @param mercatFitxatges l'array de mercat de fitxatges
+     */
     private static void fitxarEntrenador(ArrayList<Equip> equips, ArrayList<Persona> mercatFitxatges) {
         Scanner sc = new Scanner(System.in);
 
@@ -788,6 +887,12 @@ public class Main {
         }
     }
 
+    /**
+     * Guarda la posició de l'entrenador a fitxar
+     *
+     * @param entrenadorsDisponibles l'array dels entrenadors disponibles
+     * @return l'opció de l'usuari per fitxar a un jugador/a
+     */
     private static int getOpcioEntrenador(ArrayList<Entrenador> entrenadorsDisponibles) {
         Scanner sc = new Scanner(System.in);
         int opcioUsuari = -1;
@@ -808,6 +913,11 @@ public class Main {
         return opcioUsuari;
     }
 
+    /**
+     * Mostra els entrenadors disponibles per pantalla
+     *
+     * @param entrenadorsDisponibles l'array dels entrenadors disponibles
+     */
     private static void getEntrenadorsDisponibles(ArrayList<Entrenador> entrenadorsDisponibles) {
         System.out.println("Total d'entrenadors/es disponibles: " + entrenadorsDisponibles.size());
         for (int i = 0; i < entrenadorsDisponibles.size(); i++) {
@@ -815,6 +925,12 @@ public class Main {
         }
     }
 
+    /**
+     * Mostra la informació d'un equip
+     * Comprova que l'equip existeix
+     *
+     * @param equips l'array d'equips
+     */
     public static void consultarDadesEquip(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nBUSCADOR EQUIP\nIntrodueix el nom de l'equip: ");
@@ -831,6 +947,13 @@ public class Main {
         }
     }
 
+    /**
+     * Busca la posició de l'equip on coincideixi amb el nom d'equip introduit
+     *
+     * @param equips l'array d'equips
+     * @param nomEquipTrobar string de l'equip a trobar
+     * @return la posició on coincideix el nom
+     */
     public static int buscarPosicioEquip(ArrayList<Equip> equips, String nomEquipTrobar) {
         boolean trobat = false;
         int i = 0, pos = -1;
@@ -845,6 +968,12 @@ public class Main {
         return pos;
     }
 
+    /**
+     * Mostra la informació d'un jugador d'un equip
+     * Comprova si l'equip i jugador existeix
+     *
+     * @param equips l'array d'equips
+     */
     public static void consultarDadesJugador(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nBUSCADOR JUGADOR/A\nPrimer introdueix l'equip del jugador/a ");
@@ -871,6 +1000,15 @@ public class Main {
         }
     }
 
+    /**
+     * Busca la posició d'un jugador dins l'equip a partir del nom i el dorsal
+     *
+     * @param eq Equip on es fa la cerca
+     * @param nomJugadorTrobar Nom del jugador
+     * @param dorsalJugadorTrobar Dorsal del jugador
+     * @return posició del jugador o -1 si no existeix
+     */
+
     public static int buscarPosicioJugador(Equip eq, String nomJugadorTrobar, int dorsalJugadorTrobar) {
         int i = 0, pos = -1;
         boolean trobat = false;
@@ -886,6 +1024,16 @@ public class Main {
         return pos;
     }
 
+    /**
+     *
+     * Transfereix un jugador entre 2 equips
+     * Verifica que ambdós equips existeixen
+     * Demana el nom i dorsal del jugador
+     * Comprova que el jugador existeix en l'equip original
+     * Confirma i verifica que el nou dorsal no estigui ocupat en l'equip de destinació
+     *
+     * @param equips l'array d'equips
+     */
     private static void transferirJugador(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nTRANSFERÈNCIA DE JUGADOR/A\nEquip original: ");
@@ -942,6 +1090,11 @@ public class Main {
         }
     }
 
+    /**
+     * Llegeix una resposta de l'usuari i valida que sigui 's' o 'n'.
+     *
+     * @return 's' per sí o 'n' per no.
+     */
     public static char getRespostaUsuari() {
         Scanner sc = new Scanner(System.in);
         char respostaUsuari;
@@ -957,6 +1110,15 @@ public class Main {
         return respostaUsuari;
     }
 
+    /**
+     * Busca la posició d'un jugador dins d'un equip a partir del dorsal
+     * Recorre la llista de jugadors de l'equip
+     * Retorna la posició del primer jugador que coincideixi amb el dorsal indicat
+     *
+     * @param eq Equip on es vol buscar el jugador
+     * @param dorsal Número de dorsal a cercar
+     * @return posició del jugador dins la llista, o -1 si no s'ha trobat
+     */
     public static int buscarPosicioJugadorDorsal(Equip eq, int dorsal) {
         int i = 0, pos = -1;
         boolean trobat = false;
@@ -971,6 +1133,12 @@ public class Main {
         return pos;
     }
 
+    /**
+     * Desa en un fitxer totes les dades dels equips i els seus jugadors.
+     * Cada equip i jugador s'escriu en format de text estructurat.
+     *
+     * @param equips Llista d'equips a desar.
+     */
     public static void desarDadesEquips(ArrayList<Equip> equips) {
         String fileName = "src/fitxers/data_equips.txt";
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -997,7 +1165,7 @@ public class Main {
 
                 for (Jugador j : e.getJugadors()) {
                     bw.write("J;" +
-                            j.getNom() + ";" + j.getCognom() + ";" + sdf.format(j.getDataNaixement()) + ";" + // ✅ sdf.format
+                            j.getNom() + ";" + j.getCognom() + ";" + sdf.format(j.getDataNaixement()) + ";" +
                             j.getNivellMotivacio() + ";" + j.getSouAnual() + ";" +
                             j.getDorsal() + ";" + j.getPosicio() + ";" + j.getQualitat());
                     bw.newLine();
