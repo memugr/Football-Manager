@@ -115,7 +115,6 @@ public class Main {
     }
 
     private static void mostrarMenuAdmin() {
-        System.out.println("Benvingut al Politècnics Football Manager, Admin.");
         System.out.println("Escull una opció: ");
         System.out.println("-----\nMenú:\n-----");
         System.out.println("1. Veure classificació lliga actual." +
@@ -160,11 +159,57 @@ public class Main {
         }
     }
 
+    private static void donarAltaEquip(ArrayList<Equip> equips) {
+        Scanner sc = new Scanner(System.in);
+        String nomEquipNou;
+
+        do {
+            System.out.println("Escriu el nom de l'equip.");
+            nomEquipNou = sc.nextLine();
+
+            if(comprobarExisteixEquip(equips, nomEquipNou)){
+                System.out.println("Aquest equip ja està donat d'alta. Torna-ho a intentar.");
+            }
+        } while (comprobarExisteixEquip(equips, nomEquipNou));
+
+        int anyFundacio = 0;
+        boolean valid = false;
+
+        do {
+            try {
+                System.out.println("Introdueix l'any de fundació:");
+                anyFundacio = Integer.parseInt(sc.nextLine());
+                valid = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Error: has d'introduir un número vàlid.");
+            }
+        } while (!valid);
+
+        System.out.println("Introdueix el nom de la ciutat:");
+        String nomCiutat = sc.nextLine();
+
+        System.out.println("Vols introduïr el nom de l'estadi? (s/n)");
+        String nomEstadi = null, nomPresident = null;
+        if (sc.nextLine().equalsIgnoreCase("s")) {
+            System.out.println("Introdueix el nom de l'estadi:");
+            nomEstadi = sc.nextLine();
+        } else{
+            System.out.println("Vols introduïr el nom del president? (s/n)");
+            if (sc.nextLine().equalsIgnoreCase("s")) {
+                System.out.println("Introdueix el nom del president:");
+                nomPresident = sc.nextLine();
+            }
+        }
+
+        Equip nouEquip = new Equip(anyFundacio, nomPresident, nomEstadi, nomCiutat, nomEquipNou);
+        equips.add(nouEquip);
+        System.out.println("El nou equip s'ha afegit correctament!");
+    }
+
     private static void donarAltaJugadorEntrenador(ArrayList<Persona> mercatFitxatges) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Vols donar d'alta un Jugador (1) o un Entrenador (2)?");
         int opcio = getOpcioPersona();
-
 
         int motivacio = 5;
         System.out.println("Introdueix el nom:");
@@ -175,6 +220,7 @@ public class Main {
         Date dataNaixement = null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         boolean dataValida = false;
+
         do {
             try{
                 System.out.println("Introdueix la data de naixement (dd/MM/yyyy):");
@@ -183,7 +229,7 @@ public class Main {
             } catch(ParseException e){
                 System.out.println("Format incorrecte.");
             }
-        }while(!dataValida);
+        } while (!dataValida);
 
         double souAnual = 0;
         boolean souValid = false;
@@ -193,10 +239,11 @@ public class Main {
                 souAnual = sc.nextDouble();
                 sc.nextLine();
                 souValid = true;
-            }catch(InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println("Format incorrecte. Només números.");
             }
-        }while(!souValid);
+        } while (!souValid);
+
         //jugador
         if (opcio == 1) {
 
@@ -220,6 +267,7 @@ public class Main {
             for (String pos : Jugador.POSICIONS_POSSIBLES) {
                 System.out.println(" * " + pos + "\n");
             }
+
             do {
                 System.out.println("Introduiex la posició del jugador:");
                 posicio = sc.nextLine();
@@ -240,8 +288,7 @@ public class Main {
             mercatFitxatges.add(jugador1);
             System.out.println("Jugador donat d'alta correctament!");
 
-        }else {//entrenador
-
+        } else { //entrenador
             int tornejos = 0;
             boolean numValid = false;
             do {
@@ -278,61 +325,17 @@ public class Main {
         }
     }
 
-    private static void donarAltaEquip(ArrayList<Equip> equips) {
-        Scanner sc = new Scanner(System.in);
-        String nomEquipNou;
-        boolean existeixEquip;
-        do {
-            System.out.println("Escriu el nom de l'equip.");
-            nomEquipNou = sc.nextLine();
-
-            if(comprobarExisteixEquip(equips, nomEquipNou)){
-                System.out.println("Aquest equip ja está donat d'alta. Torna-ho a intentar.");
-            }
-        } while (comprobarExisteixEquip(equips, nomEquipNou));
-
-        int anyFundacio = 0;
-        boolean valid = false;
-
-        do {
-            try {
-                System.out.println("Introdueix l'any de fundació:");
-                anyFundacio = Integer.parseInt(sc.nextLine());
-                valid = true;
-            } catch (NumberFormatException e) {
-                System.out.println("Error: has d'introduir un número vàlid.");
-            }
-        } while (!valid);
-
-
-        System.out.println("Introdueix el nom de la ciutat:");
-        String nomCiutat = sc.nextLine();
-
-        System.out.println("Vols introduïr el nom de l'estadi? (s/n)");
-        String nomEstadi = null, nomPresident = null;
-        if (sc.nextLine().equalsIgnoreCase("s")) {
-            System.out.println("Introdueix el nom de l'estadi:");
-            nomEstadi = sc.nextLine();
-        }else{
-            System.out.println("Vols introduïr el nom del president? (s/n)");
-            if (sc.nextLine().equalsIgnoreCase("s")) {
-                System.out.println("Introdueix el nom del president:");
-                nomPresident = sc.nextLine();
-            }
-        }
-
-        Equip nouEquip = new Equip(anyFundacio, nomPresident, nomEstadi, nomCiutat, nomEquipNou);
-        equips.add(nouEquip);
-        System.out.println("El nou equip s'ha afegit correctament!");
-    }
-
     private static boolean comprobarExisteixEquip(ArrayList<Equip> equips, String nomEquipNou) {
-        for(Equip e : equips) {
-            if (e.getNom().equalsIgnoreCase(nomEquipNou)){
-                return true;
+        boolean existeix = false;
+        int index = 0;
+
+        while (!existeix & index < equips.size()) {
+            if (equips.get(index).getNom().equalsIgnoreCase(nomEquipNou)){
+                existeix = true;
             }
         }
-        return false;
+
+        return existeix;
     }
 
     public static int getOpcioPersona() {
