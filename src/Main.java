@@ -82,31 +82,26 @@ public class Main {
     private static void carregarEquips(String fileNameEquips, ArrayList<Equip> equips) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileNameEquips));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             String line;
+            Equip equipActual = null;
 
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(";");
-
-                String nom = parts[0];
-                String ciutat = parts[1];
-                int anyFundacio = Integer.parseInt(parts[2]);
-
-                String nomEstadi;
-                if (parts[3].equals("null")) {
-                    nomEstadi = null;
-                } else {
-                    nomEstadi = parts[3];
+                if (!line.trim().isEmpty()) {
+                    if (line.equals("---")) {
+                        if (equipActual != null) {
+                            equips.add(equipActual);
+                            equipActual = null;
+                        }
+                    } else if (line.startsWith("J;")) {
+                        Jugador j = crearJugador(line, sdf);
+                        if (equipActual != null) {
+                            equipActual.getJugadors().add(j);
+                        }
+                    } else {
+                        equipActual = crearEquip(line);
+                    }
                 }
-
-                String nomPresident;
-                if (parts[4].equals("null")) {
-                    nomPresident = null;
-                } else {
-                    nomPresident = parts[4];
-                }
-
-                Equip e = new Equip(anyFundacio, nomPresident, nomEstadi, ciutat, nom);
-                equips.add(e);
             }
             br.close();
         } catch (FileNotFoundException e) {
@@ -114,6 +109,52 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Error llegint el fitxer d'equips");
         }
+    }
+
+    private static Jugador crearJugador(String line, SimpleDateFormat sdf) {
+        String[] parts = line.split(";");
+        String nom = parts[1];
+        String cognom = parts[2];
+        Date dataNaixement = null;
+
+        try {
+            dataNaixement = sdf.parse(parts[3]);
+        } catch (ParseException e) {
+            System.out.println("Error en la data del jugador " + nom);
+        }
+
+        double motivacio = Double.parseDouble(parts[4]);
+        double souAnual = Double.parseDouble(parts[5]);
+        int dorsal = Integer.parseInt(parts[6]);
+        String posicio = parts[7];
+        double qualitat = Double.parseDouble(parts[8]);
+
+        return new Jugador(nom, cognom, dataNaixement, motivacio, souAnual, dorsal, posicio, qualitat);
+    }
+
+    private static Equip crearEquip(String line) {
+        String[] parts = line.split(";");
+
+        String nom = parts[0];
+        String ciutat = parts[1];
+        int anyFundacio = Integer.parseInt(parts[2]);
+
+        String nomEstadi;
+        if (parts[3].equals("null")) {
+            nomEstadi = null;
+        } else {
+            nomEstadi = parts[3];
+        }
+
+        String nomPresident;
+        if (parts[4].equals("null")) {
+            nomPresident = null;
+        } else {
+            nomPresident = parts[4];
+        }
+
+        Equip eq = new Equip(anyFundacio, nomPresident, nomEstadi, ciutat, nom);
+        return eq;
     }
 
     /**
@@ -377,6 +418,7 @@ public class Main {
             if (equips.get(index).getNom().equalsIgnoreCase(nomEquipNou)){
                 existeix = true;
             }
+            index++;
         }
 
         return existeix;
@@ -905,7 +947,7 @@ public class Main {
         char respostaUsuari;
 
         do {
-            respostaUsuari = sc.next().toLowerCase().charAt(0);
+            respostaUsuari = sc.nextLine().toLowerCase().charAt(0);
 
             if (respostaUsuari != 's' && respostaUsuari != 'n') {
                 System.out.println("Resposta invàlida, només y o n");
@@ -931,6 +973,7 @@ public class Main {
 
     public static void desarDadesEquips(ArrayList<Equip> equips) {
         String fileName = "src/fitxers/data_equips.txt";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, false))) {
             for (Equip e : equips) {
@@ -948,11 +991,19 @@ public class Main {
                     nomPresident = "null";
                 }
 
-                bw.write(e.getNom() + ";" +
-                        e.getCiutat() + ";" +
-                        e.getAnyFundacio() + ";" +
-                        nomEstadi + ";" +
-                        nomPresident);
+                bw.write(e.getNom() + ";" + e.getCiutat() + ";" + e.getAnyFundacio() + ";" +
+                        nomEstadi + ";" + nomPresident);
+                bw.newLine();
+
+                for (Jugador j : e.getJugadors()) {
+                    bw.write("J;" +
+                            j.getNom() + ";" + j.getCognom() + ";" + sdf.format(j.getDataNaixement()) + ";" + // ✅ sdf.format
+                            j.getNivellMotivacio() + ";" + j.getSouAnual() + ";" +
+                            j.getDorsal() + ";" + j.getPosicio() + ";" + j.getQualitat());
+                    bw.newLine();
+                }
+
+                bw.write("---");
                 bw.newLine();
             }
             System.out.println("Tots els equips s'han guardat correctament");
