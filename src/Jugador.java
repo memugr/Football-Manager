@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -9,27 +10,16 @@ import java.util.Random;
  */
 public class Jugador extends Persona {
     //Atributs
-    /**
-     * Posicions finals del jugador
-     */
     public static final String[] POSICIONS_POSSIBLES = {"POR", "DEF", "MIG", "DAV"};
 
-    /**
-     * Dorsal del jugador
-     */
     private int dorsal;
-    /**
-     * Posició del jugador
-     */
     private String posicio;
-    /**
-     * Qualitat del jugador
-     */
     private double qualitat;
 
     //Constructor
 
     /**
+     * Constructor d'un objecte Jugador
      *
      * @param nom
      * @param cognom
@@ -107,6 +97,31 @@ public class Jugador extends Persona {
             qualitat += 0.3;
             System.out.println("Qualitat augmentada en 0.3. Nova qualitat: " + qualitat);
         }
+    }
+
+    /**
+     * Comprova si dos jugadors són iguals
+     * Dos jugadors es consideren iguals si tenen el mateix nom i dorsal
+     *
+     * @param o L'objecte a comparar
+     * @return true si els jugadors tenen el mateix nom i dorsal, false en cas contrari
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Jugador jugador = (Jugador) o;
+        return dorsal == jugador.dorsal && nom.equalsIgnoreCase(jugador.nom);
+    }
+
+    /**
+     * Genera el codi hash del jugador basat en el nom i el dorsal
+     * Consistent amb el mètode equals()
+     *
+     * @return codi hash del jugador
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom, dorsal);
     }
 
     /**

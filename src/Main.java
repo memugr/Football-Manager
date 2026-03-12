@@ -1,10 +1,7 @@
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Classe Main
@@ -18,14 +15,18 @@ public class Main {
         ArrayList<Equip> equips = new ArrayList<>();
         Lliga lliga = null;
 
-        String fileName = "src/fitxers/mercat_fitxatges.txt";
-        carregarFitxatges(fileName, mercatFitxatges);
+        String fileNameMercat = "src/fitxers/mercat_fitxatges.txt";
+        carregarFitxatges(fileNameMercat, mercatFitxatges);
+        String fileNameEquips = "src/fitxers/data_equips.txt";
+        carregarEquips(fileNameEquips, equips);
 
         System.out.println("--------------------\n  Football Manager\n--------------------");
         System.out.print("Ets administrador (1) o gestor d'equip (2)? ");
         int opcioUser = getOpcioUsuari();
         mostrarOpcionsPrograma(opcioUser, mercatFitxatges, equips, lliga);
     }
+
+
 
     private static void mostrarOpcionsPrograma(int opcioUser, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga) {
         switch (opcioUser) {
@@ -47,14 +48,14 @@ public class Main {
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(";");
 
-                char tipusPersonona = parts[0].charAt(0);
+                char tipusPersona = parts[0].charAt(0);
                 String nom = parts[1];
                 String cognom = parts[2];
                 Date dataNaixement = formatData.parse(parts[3]);
                 int motivacio = Integer.parseInt(parts[4]);
                 double souAnual = Double.parseDouble(parts[5]);
 
-                if (tipusPersonona == 'J') {
+                if (tipusPersona == 'J') {
                     int dorsal = Integer.parseInt(parts[6]);
                     String posicio = parts[7];
                     double qualitat = Double.parseDouble(parts[8]);
@@ -62,7 +63,7 @@ public class Main {
                     Jugador j = new Jugador(nom, cognom, dataNaixement, motivacio, souAnual, dorsal, posicio, qualitat);
                     mercatFitxatges.add(j);
 
-                } else if (tipusPersonona == 'E') {
+                } else if (tipusPersona == 'E') {
                     int tornejosGuanyats = Integer.parseInt(parts[6]);
                     boolean esSeleccionador = Boolean.parseBoolean(parts[7]);
 
@@ -75,6 +76,43 @@ public class Main {
             System.out.println("Error: Fitxer no trobat");
         } catch (IOException | ParseException e) {
             System.out.println("Error llegint el fitxer");
+        }
+    }
+
+    private static void carregarEquips(String fileNameEquips, ArrayList<Equip> equips) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileNameEquips));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(";");
+
+                String nom = parts[0];
+                String ciutat = parts[1];
+                int anyFundacio = Integer.parseInt(parts[2]);
+
+                String nomEstadi;
+                if (parts[3].equals("null")) {
+                    nomEstadi = null;
+                } else {
+                    nomEstadi = parts[3];
+                }
+
+                String nomPresident;
+                if (parts[4].equals("null")) {
+                    nomPresident = null;
+                } else {
+                    nomPresident = parts[4];
+                }
+
+                Equip e = new Equip(anyFundacio, nomPresident, nomEstadi, ciutat, nom);
+                equips.add(e);
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: Fitxer d'equips no trobat");
+        } catch (IOException e) {
+            System.out.println("Error llegint el fitxer d'equips");
         }
     }
 
@@ -638,7 +676,7 @@ public class Main {
             Equip equip = equips.get(posEquip);
             equip.fitxarJugador(jugador);
 
-            mercatFitxatges.remove(opcioUsuari);
+            mercatFitxatges.remove(jugador);
         } else {
             System.out.println("Equip " + nomEquip + " no existeix");
         }
@@ -664,9 +702,13 @@ public class Main {
     }
 
     private static void getJugadorsDisponibles(ArrayList<Jugador> jugadorsDisponibles) {
+        jugadorsDisponibles.sort(new ComparatorJugadorQualitat());
         System.out.println("Total de jugadors/es disponibles: " + jugadorsDisponibles.size());
         for (int i = 0; i < jugadorsDisponibles.size(); i++) {
-            System.out.println((i + 1) + ". " + jugadorsDisponibles.get(i).getNom() + " " + jugadorsDisponibles.get(i).getCognom());
+            Jugador j = jugadorsDisponibles.get(i);
+            System.out.println((i + 1) + ". " + j.getNom() + " " + j.getCognom() +
+                    " | Qualitat: " + j.getQualitat() +
+                    " | Motivació: " + j.getNivellMotivacio());
         }
     }
 
@@ -698,7 +740,7 @@ public class Main {
             Equip equip = equips.get(posEquip);
             equip.fitxarEntrenador(entrenador);
 
-            mercatFitxatges.remove(opcioUsuari);
+            mercatFitxatges.remove(entrenador);
         } else {
             System.out.println("Equip " + nomEquip + " no existeix");
         }
@@ -741,6 +783,7 @@ public class Main {
             Equip eq = equips.get(pos);
             System.out.println("\nEquip " + nomEquipTrobar + " trobat");
             System.out.println(eq.toString());
+            eq.mostrarJugadors();
         } else {
             System.out.println("Equip " + nomEquipTrobar + " no existeix");
         }
@@ -889,13 +932,29 @@ public class Main {
     public static void desarDadesEquips(ArrayList<Equip> equips) {
         String fileName = "src/fitxers/data_equips.txt";
 
-        String info = "";
-        for (Equip e : equips) {
-            info += e.toString() + "\n";
-        }
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, false))) {
+            for (Equip e : equips) {
+                String nomEstadi;
+                if (e.getNomEstadi() != null) {
+                    nomEstadi = e.getNomEstadi();
+                } else {
+                    nomEstadi = "null";
+                }
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
-            bw.write(info);
+                String nomPresident;
+                if (e.getNomPresident() != null) {
+                    nomPresident = e.getNomPresident();
+                } else {
+                    nomPresident = "null";
+                }
+
+                bw.write(e.getNom() + ";" +
+                        e.getCiutat() + ";" +
+                        e.getAnyFundacio() + ";" +
+                        nomEstadi + ";" +
+                        nomPresident);
+                bw.newLine();
+            }
             System.out.println("Tots els equips s'han guardat correctament");
         } catch (IOException e) {
             System.out.println("Error en escriure al fitxer");
