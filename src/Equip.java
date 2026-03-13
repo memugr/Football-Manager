@@ -136,7 +136,6 @@ public class Equip {
                 "\nNom del president: " + (nomPresident != null ? nomPresident : "No assignat") +
                 "\nAny de fundació: " + anyFundacio +
                 "\nEntrenador: " + (entrenador != null ? entrenador.getNom() + " " + entrenador.getCognom() : "No assignat") +
-                "\nJugadors: " + (jugadors.isEmpty() ? "Cap jugador" : getJugadors()) +
                 "\n----------";
     }
 
@@ -172,18 +171,23 @@ public class Equip {
     }
 
     /**
-     * Mostra tots els jugadors de l'equip.
+     * Mostra tots els jugadors de l'equip ordenat per la seva posició
      * Si no n'hi ha cap, informa l'usuari.
+     *
+     * @return el llistat de jugadors de l'equip
+     * @see ComparatorJugadorPosicio comparador per posició
      */
-    public void mostrarJugadors (){
-        if  (jugadors.isEmpty()) {
+    public boolean mostrarJugadors() {
+        if (jugadors.isEmpty()) {
             System.out.println("Aquest equip encara no té jugadors.");
         } else {
+            jugadors.sort(new ComparatorJugadorPosicio());
             System.out.println("Jugadors de l'equip " + this.nom + ":");
-            for(Jugador j : jugadors){
+            for (Jugador j : jugadors) {
                 System.out.println(j.toString());
-            };
+            }
         }
+        return false;
     }
 
     /**

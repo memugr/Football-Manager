@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -9,31 +10,16 @@ import java.util.Random;
  */
 public class Jugador extends Persona {
     //Atributs
-    /**
-     * Posicions finals del jugador
-     */
     public static final String[] POSICIONS_POSSIBLES = {"POR", "DEF", "MIG", "DAV"};
-    /**
-     * Comptador per saber quants jugadors existeixen
-     */
-    private static int comptadorJugadors = 0;
 
-    /**
-     * Dorsal del jugador
-     */
     private int dorsal;
-    /**
-     * Posició del jugador
-     */
     private String posicio;
-    /**
-     * Qualitat del jugador
-     */
     private double qualitat;
 
     //Constructor
 
     /**
+     * Constructor d'un objecte Jugador
      *
      * @param nom
      * @param cognom
@@ -92,7 +78,7 @@ public class Jugador extends Persona {
     }
 
     /**
-     * Executa la classe pare i augmente la qualitat del jugador a partir d'un número aleatori
+     * Executa la classe pare i augmenta la qualitat del jugador a partir d'un número aleatori
      */
     @Override
     public void entrenament() {
@@ -114,13 +100,28 @@ public class Jugador extends Persona {
     }
 
     /**
-     * Ensenya per pantalla les posicions possibles per un jugador
+     * Comprova si dos jugadors són iguals
+     * Dos jugadors es consideren iguals si tenen el mateix nom i dorsal
+     *
+     * @param o L'objecte a comparar
+     * @return true si els jugadors tenen el mateix nom i dorsal, false en cas contrari
      */
-    public void ensenyarPosicionsPossibles() {
-        System.out.println("Possicions possibles: ");
-        for (int i = 0; i < POSICIONS_POSSIBLES.length; i++) {
-            System.out.println((i + 1) + ". " + POSICIONS_POSSIBLES[i]);
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Jugador jugador = (Jugador) o;
+        return dorsal == jugador.dorsal && nom.equalsIgnoreCase(jugador.nom);
+    }
+
+    /**
+     * Genera el codi hash del jugador basat en el nom i el dorsal
+     * Consistent amb el mètode equals()
+     *
+     * @return codi hash del jugador
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom, dorsal);
     }
 
     /**
