@@ -39,7 +39,7 @@ public class Main {
         }
     }
 
-    private static void carregarFitxatges(String fileName, ArrayList<Persona> mercatFitxatges) {
+    public static void carregarFitxatges(String fileName, ArrayList<Persona> mercatFitxatges) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             String line;
@@ -515,10 +515,10 @@ public class Main {
     /**
      * Gestiona les opcions del menú de gestor d'equips
      *
-     * @param opcioGestor
-     * @param mercatFitxatges
-     * @param equips
-     * @param lliga
+     * @param opcioGestor l'opció escollida
+     * @param mercatFitxatges l'array de mercat de fitxatges
+     * @param equips l'array d'equips
+     * @param lliga lliga
      */
     public static void opcionsProgramaGestor(int opcioGestor, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga) {
         switch (opcioGestor) {
