@@ -141,10 +141,9 @@ public class Equip {
 
     /**
      * Calcula la qualitat mitjana de l'equip.
-     *
      * Si no hi ha jugadors, la qualitat és 0.
      */
-    public void calcularMitjanaEquip ()  {
+    public double getCalcularQualitatMitjanaEquip()  {
         if (jugadors.isEmpty()) {
             qualitatMitjaEquip = 0;
         } else {
@@ -153,21 +152,34 @@ public class Equip {
                 suma += jugador.getQualitat();
             }
             qualitatMitjaEquip = suma/jugadors.size();
-        }
-
+        }return qualitatMitjaEquip;
     }
 
     /**
      * Mostra la qualitat mitjana de l'equip.
      * Si encara no s'ha calculat i no hi ha jugadors, avisa l'usuari.
      */
-    public void mostrarQualitatMitjana () {
+    public void mostrarQualitatMitjanaEquip() {
         if (qualitatMitjaEquip == 0 && jugadors.isEmpty()) {
             System.out.println("Encara no s'ha calculat la qualitat mitjana de l'equip.");
         } else {
             System.out.println("La qualitat mitjana de l'equip es " + Equip.this.nom + " és: " +  qualitatMitjaEquip);
         }
 
+    }
+
+
+    /**
+     * Calcula la motivació mitjana de l'equip.
+     *
+     * @return
+     */
+    public double getMotivacioMitjanaEquip(){
+        if (jugadors.isEmpty()) return 0;
+        double suma = 0;
+        for (Jugador jugador : jugadors) {
+            suma += jugador.getNivellMotivacio();
+        }return suma/jugadors.size();
     }
 
     /**

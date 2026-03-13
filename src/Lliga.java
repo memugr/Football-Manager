@@ -84,6 +84,15 @@ public class Lliga {
     }
 
     /**
+     * Crida el mètode per disputar els partits.
+     * És un mètode extendible a futur, per mostrar calendari de lliga,
+     * o disputar lligues més complexes.
+     */
+    public void generarPartits(){
+        disputarPartits();
+    }
+
+    /**
      * Disputa partits automàticament amb un Randomizer
      * Recorre tots els equips de la lliga i els enfronta entre si,
      * assegurant que cada parella d'equips només es trobin una vegada.
@@ -91,16 +100,38 @@ public class Lliga {
      */
     public void disputarPartits() {
         Random rand = new Random();
+        System.out.println("Comença la jornada!");
 
         for (int i = 0; i < equips.size(); i++) { // Recorrem tots els equips
             for (int j = i + 1; j < equips.size(); j++) { // Recorre un altre equip
-                int golsLocal = rand.nextInt(6);
-                int golsVisitant = rand.nextInt(6);
+
+                FitxaEquip fitxaLocal = equips.get(i);
+                FitxaEquip fitxaVisitant = equips.get(j);
+
+                Equip local = fitxaLocal.getEquip();
+                Equip visitant = fitxaVisitant.getEquip();
+
+                double nivellLocal = local.getCalcularQualitatMitjanaEquip() + local.getMotivacioMitjanaEquip();
+                double nivellVisitant = visitant.getCalcularQualitatMitjanaEquip() + visitant.getMotivacioMitjanaEquip();
+
+                int golsLocal = rand.nextInt((int) (nivellLocal/2)+2);
+                int golsVisitant = rand.nextInt((int)  (nivellVisitant/2)+2);
 
                 equips.get(i).afegirResultat(golsLocal, golsVisitant); //Actualitza la fitxa de l'equip local
                 equips.get(j).afegirResultat(golsVisitant, golsLocal); //Actualitza la fitxa de l'equip visitant (invertit)
+
+                System.out.println(local.getNom() + " " + golsLocal + " - " + golsVisitant + " " + visitant.getNom());
+                if (golsLocal > golsVisitant) {
+                    System.out.println("Guanyador: " + local.getNom());
+                } else if (golsVisitant > golsLocal) {
+                    System.out.println("Guanyador: " + visitant.getNom());
+                } else {
+                    System.out.println("Empat");
+                }
             }
         }
+        System.out.println("--- Tots els partits han estat disputats! ---");
+
     }
 
     public void consultarEquipsGolsFavor() {

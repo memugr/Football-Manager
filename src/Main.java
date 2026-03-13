@@ -227,75 +227,7 @@ public class Main {
                 consultarDadesJugador(equips);
                 break;
             case 6:
-                //6- Disputar nova lliga
-
-                //Una vegada creada la nova lliga, es demanaran tots els equips que hi participen, assegurant-se de no afegir
-                // cap equip repetit! Una vegada afegits tots els equips a la lliga, es disputaran automàticament tants
-                // partits com sigui necessari per completar la lliga (podeu fer que cada equip disputi un sol partit
-                // amb cadascun dels altres o podeu fer "anada i tornada").
-
-                // de la lliga és decisió personal, però tenint en compte els següents mínims:
-                //
-                //Puntuació: partit guanyat 3 punts, partit empatat 1 punt, partit perdut 0 punts.
-                //
-                //Cal saber quants gols a favor i quants en contra s'han generat per a cada equip,
-                // ja que és informació necessària per a la classificació.
-                //
-                //La qualificació mitjana dels equips i la motivació ha d'influir d'alguna manera en les possibilitats de victòria de l'equip.
-
-                Scanner sc = new Scanner(System.in);
-                System.out.println("---*---\nComença la nova lliga!\n---*---");
-
-                String nomNovaLliga;
-                do {
-                    System.out.print("Escriu el nom de la lliga: ");
-                    nomNovaLliga = sc.nextLine().trim();
-                    if (nomNovaLliga.isEmpty()) {
-                        System.out.println("El nom no pot estar buit.");
-                        continue;
-                    }
-                    if (lliga != null && lliga.getNom().equalsIgnoreCase(nomNovaLliga)) {
-                        System.out.println("Ja existeix una lliga amb aquest nom. Torna a provar.");
-                        nomNovaLliga = ""; // forçar repetir
-                    }
-                } while (nomNovaLliga.isEmpty());
-
-
-                int quantitatEquipsParticipants = 0;
-                System.out.print("Per poder disputar una lliga necessitem mínim 4 equips.\nQuants equips hi participen?: ");
-                do {
-                    try{
-                        quantitatEquipsParticipants = sc.nextInt();
-                        sc.nextLine();
-                        if (quantitatEquipsParticipants < 4) {
-                            System.out.println("Opció invàlida. Necessitem mínim 4 equips");
-                        }
-                    }catch (InputMismatchException e){
-                        System.out.println("Caràcter invàlid. Només números!");
-                    }
-                }while (quantitatEquipsParticipants < 4);
-
-                Lliga novaLliga = new Lliga(nomNovaLliga, quantitatEquipsParticipants);
-
-                System.out.println("Introdueix els equips que participen d'aquesta lliga.");
-                System.out.println("Aquests són els equips disponibles:");
-                for (Equip eq : equips) {
-                    System.out.println("* "+ eq.getNom());
-                }
-
-                for (int i = 0; i < quantitatEquipsParticipants; i++) {
-                    String nomEquipParticipant = sc.nextLine();
-                    int posicioEquip = buscarPosicioEquip(equips, nomEquipParticipant);
-
-                    if (posicioEquip != -1) {
-                        System.out.println("Equip trobat");
-                        Equip eqTrobat = equips.get(posicioEquip);
-                        novaLliga.afegirEquip(eqTrobat);
-                    } else  {
-                        System.out.println("Equip no trobat");
-                    }
-                }
-
+                disputarLliga(equips, lliga);
                 break;
             case 7:
                 relitzarSessioEntrenament(mercatFitxatges);
@@ -307,6 +239,63 @@ public class Main {
                 System.out.println("Fins després, Admin!");
                 break;
         }
+    }
+
+    private static void disputarLliga(ArrayList<Equip> equips, Lliga lliga) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("---*---\nComença la nova lliga!\n---*---");
+
+        String nomNovaLliga;
+        do {
+            System.out.print("Escriu el nom de la lliga: ");
+            nomNovaLliga = sc.nextLine().trim();
+            if (nomNovaLliga.isEmpty()) {
+                System.out.println("El nom no pot estar buit.");
+                continue;
+            }
+            if (lliga != null && lliga.getNom().equalsIgnoreCase(nomNovaLliga)) {
+                System.out.println("Ja existeix una lliga amb aquest nom. Torna a provar.");
+                nomNovaLliga = ""; // forçar repetir
+            }
+        } while (nomNovaLliga.isEmpty());
+
+
+        int quantitatEquipsParticipants = 0;
+        System.out.print("Per poder disputar una lliga necessitem mínim 4 equips.\nQuants equips hi participen?: ");
+        do {
+            try{
+                quantitatEquipsParticipants = sc.nextInt();
+                sc.nextLine();
+                if (quantitatEquipsParticipants < 4) {
+                    System.out.println("Opció invàlida. Necessitem mínim 4 equips");
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Caràcter invàlid. Només números!");
+            }
+        }while (quantitatEquipsParticipants < 4);
+
+        Lliga novaLliga = new Lliga(nomNovaLliga, quantitatEquipsParticipants);
+
+        System.out.println("Introdueix els equips que participen d'aquesta lliga.");
+        System.out.println("Aquests són els equips disponibles:");
+        for (Equip eq : equips) {
+            System.out.println("* "+ eq.getNom());
+        }
+
+        for (int i = 0; i < quantitatEquipsParticipants; i++) {
+            String nomEquipParticipant = sc.nextLine();
+            int posicioEquip = buscarPosicioEquip(equips, nomEquipParticipant);
+
+            if (posicioEquip != -1) {
+                System.out.println("Equip trobat");
+                Equip eqTrobat = equips.get(posicioEquip);
+                novaLliga.afegirEquip(eqTrobat);
+            } else  {
+                System.out.println("Equip no trobat");
+            }
+        }
+        novaLliga.generarPartits();
+        novaLliga.mostrarClassificacio();
     }
 
     private static void relitzarSessioEntrenament(ArrayList<Persona> mercatFitxatges) {
