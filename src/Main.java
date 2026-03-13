@@ -132,11 +132,11 @@ public class Main {
     }
 
     /**
+     * Crea un jugador a partir d'una línia del fitxer d'equips
      *
-     *
-     * @param line
-     * @param sdf
-     * @return
+     * @param line línia del fitxer amb les dades del jugador separades per ';'
+     * @param sdf format de data per parsejar la data de naixement
+     * @return el jugador creat amb les dades de la línia
      */
     private static Jugador crearJugador(String line, SimpleDateFormat sdf) {
         String[] parts = line.split(";");
@@ -159,6 +159,12 @@ public class Main {
         return new Jugador(nom, cognom, dataNaixement, motivacio, souAnual, dorsal, posicio, qualitat);
     }
 
+    /**
+     * Crea un equip a partir d'una línia del fitxer d'equips
+     *
+     * @param line línia del fitxer amb les dades del jugador separades per ';'
+     * @return l'equip creat amb les dades de la línia
+     */
     private static Equip crearEquip(String line) {
         String[] parts = line.split(";");
 
