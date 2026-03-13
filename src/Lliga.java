@@ -134,6 +134,13 @@ public class Lliga {
 
     }
 
+    /**
+     * Consulta quin és l'equip amb més gols a favor dins de la lliga.
+     *
+     * Si la llista d'equips és buida o null, mostra un missatge indicant-ho.
+     * Si no, recorre totes les fitxes d'equip per trobar l'equip
+     * amb més gols a favor i mostra el resultat.
+     */
     public void consultarEquipsGolsFavor() {
         FitxaEquip millor = null;
         if (equips == null || equips.isEmpty()) {
@@ -151,6 +158,13 @@ public class Lliga {
         }
     }
 
+    /**
+     * Consulta quin és l'equip amb més gols en contra dins de la lliga.
+     *
+     * Si la llista d'equips és buida o null, mostra un missatge indicant-ho.
+     * Si no, recorre totes les fitxes d'equip per trobar l'equip
+     * amb més gols en contra i mostra el resultat.
+     */
     public void consultarEquipsGolsContra() {
         FitxaEquip pitjor = null;
         if (equips == null || equips.isEmpty()) {

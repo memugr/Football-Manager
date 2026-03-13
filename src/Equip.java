@@ -168,7 +168,6 @@ public class Equip {
 
     }
 
-
     /**
      * Calcula la motivació mitjana de l'equip.
      *

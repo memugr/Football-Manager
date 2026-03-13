@@ -217,6 +217,15 @@ public class Main {
 
     // ADMIN (Abi)
 
+    /**
+     * Mostra el menú d'administrador i gestiona les opcions seleccionades.
+     * Inicia un bucle que mostra el menú, llegeix l'opció de l'usuari
+     * i executa l'acció corresponent fins que s'introdueix l'opció 0.
+     *
+     * @param mercatFitxatges llista de persones disponibles al mercat
+     * @param equips          llista d'equips registrats
+     * @param lliga           instància de la lliga actual
+     */
     public static void mostrarAdmin(ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga) {
         System.out.println("Benvingut al Politècnics Football Manager, Admin.");
         int opcioAdmin;
@@ -241,6 +250,16 @@ public class Main {
         System.out.print("Escull una opció: ");
     }
 
+    /**
+     * Executa l'acció corresponent a l'opció seleccionada per l'administrador.
+     * Rep l'opció del menú i crida el mètode associat, gestionant les seves funcions.
+     * Finalitza quan l'opció és 0.
+     *
+     * @param opcioAmin       opció seleccionada per l'administrador
+     * @param mercatFitxatges llista de persones disponibles al mercat
+     * @param equips          llista d'equips registrats
+     * @param lliga           instància de la lliga actual
+     */
     public static void opcionsProgramaAdmin (int opcioAmin, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga){
         switch (opcioAmin){
             case 1:
@@ -273,6 +292,16 @@ public class Main {
         }
     }
 
+    /**
+     * Inicia una nova lliga.
+     * Demana el nom de la lliga, valida que no existeixi,
+     * demana el número d’equips participants (mínim 4)
+     * i permet seleccionar-los d’entre els equips disponibles.
+     * Un cop creada, genera els partits i mostra la classificació inicial.
+     *
+     * @param equips llista d'equips disponibles al sistema
+     * @param lliga  lliga actual per validar noms duplicats
+     */
     private static void disputarLliga(ArrayList<Equip> equips, Lliga lliga) {
         Scanner sc = new Scanner(System.in);
         System.out.println("---*---\nComença la nova lliga!\n---*---");
@@ -330,6 +359,13 @@ public class Main {
         novaLliga.mostrarClassificacio();
     }
 
+    /**
+     * Realitza una sessió d'entrenament per a totes les persones del mercat de fitxatges.
+     * Aplica l'entrenament als jugadors i als entrenadors.
+     * Als entrenadors els hi incrementa el sou.
+     *
+     * @param mercatFitxatges llista de persones disponibles al mercat
+     */
     private static void relitzarSessioEntrenament(ArrayList<Persona> mercatFitxatges) {
         System.out.println("---*---\nComença la sessió d'entrenament!\n---*---");
         for (Persona p : mercatFitxatges) {
@@ -342,6 +378,14 @@ public class Main {
         }
     }
 
+    /**
+     * Dona d'alta un nou equip al sistema.
+     * Demana el nom de l'equip, comprova que no existeixi,
+     * valida l'any de fundació i permet afegir opcionalment
+     * el nom de l'estadi i del president. Crea l'equip i l'afegeix a la llista.
+     *
+     * @param equips llista d'equips registrats al sistema
+     */
     private static void donarAltaEquip(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
         System.out.println("\nDONAR D'ALTA A UN EQUIP");
@@ -402,6 +446,14 @@ public class Main {
         System.out.println("El nou equip s'ha afegit correctament!");
     }
 
+    /**
+     * Dona d'alta una nova persona al mercat de fitxatges.
+     * Demana les dades bàsiques, i les valida.
+     * Segons el tipus de persona, demana la informació específica.
+     * Afegeix la nova persona al mercat.
+     *
+     * @param mercatFitxatges llista de persones disponibles al mercat
+     */
     private static void donarAltaJugadorEntrenador(ArrayList<Persona> mercatFitxatges) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Vols donar d'alta un Jugador (1) o un Entrenador (2)? ");
@@ -513,6 +565,14 @@ public class Main {
         }
     }
 
+    /**
+     * Comprova si un equip amb el nom indicat ja existeix a la llista.
+     * Recorre els equips i retorna true si en troba un amb el mateix nom.
+     *
+     * @param equips       llista d'equips registrats
+     * @param nomEquipNou  nom de l'equip a comprovar
+     * @return true si l'equip ja existeix, false en cas contrari
+     */
     private static boolean comprobarExisteixEquip(ArrayList<Equip> equips, String nomEquipNou) {
         boolean existeix = false;
         int index = 0;
@@ -527,6 +587,12 @@ public class Main {
         return existeix;
     }
 
+    /**
+     * Llegeix i valida l'opció seleccionada per l'usuari per determinar
+     * si vol donar d'alta un jugador o un entrenador.
+     *
+     * @return l'opció seleccionada (1 per jugador, 2 per entrenador)
+     */
     public static int getOpcioPersona() {
         Scanner sc = new Scanner(System.in);
         int opcioPersona = -1;
@@ -544,6 +610,11 @@ public class Main {
         return opcioPersona;
     }
 
+    /**
+     * Llegeix i valida l'opció seleccionada al menú d'administrador.
+     *
+     * @return l'opció seleccionada per l'usuari
+     */
     public static int getOpcioAdmin () {
         Scanner sc = new Scanner(System.in);
         int opcio = -1;
