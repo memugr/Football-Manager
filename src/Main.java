@@ -26,8 +26,14 @@ public class Main {
         mostrarOpcionsPrograma(opcioUser, mercatFitxatges, equips, lliga);
     }
 
-
-
+    /**
+     * Gestiona les opcions del programa segons el rol
+     *
+     * @param opcioUser opció de l'usuari
+     * @param mercatFitxatges l'array de mercat de fitxatges
+     * @param equips l'array d'equips
+     * @param lliga lliga
+     */
     private static void mostrarOpcionsPrograma(int opcioUser, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga) {
         switch (opcioUser) {
             case 1:
@@ -39,6 +45,13 @@ public class Main {
         }
     }
 
+    /**
+     * Carrega el mercat de fitxatges del fitxer i els afegeix a la llista de mercat de fitxatges<br>
+     * Llegeix línia a línia el fitxer i crea jugadors o entrenadors segons el tipus de persona
+     *
+     * @param fileName nom del fitxer a llegir
+     * @param mercatFitxatges llista on s'afegiran els jugadors i entrenadors carregats
+     */
     public static void carregarFitxatges(String fileName, ArrayList<Persona> mercatFitxatges) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -79,6 +92,13 @@ public class Main {
         }
     }
 
+    /**
+     * Carrega els equips del fitxer i els afegeix a la llista d'equips del programa<br>
+     * Llegeix línia a línia el fitxer i crea equips
+     *
+     * @param fileNameEquips nom del fitxer a llegir
+     * @param equips llista on s'afegiran els equips carregats
+     */
     private static void carregarEquips(String fileNameEquips, ArrayList<Equip> equips) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileNameEquips));
@@ -111,6 +131,13 @@ public class Main {
         }
     }
 
+    /**
+     *
+     *
+     * @param line
+     * @param sdf
+     * @return
+     */
     private static Jugador crearJugador(String line, SimpleDateFormat sdf) {
         String[] parts = line.split(";");
         String nom = parts[1];
@@ -207,6 +234,7 @@ public class Main {
                 "\n0. Sortir.");
         System.out.print("Escull una opció: ");
     }
+
     public static void opcionsProgramaAdmin (int opcioAmin, ArrayList<Persona> mercatFitxatges, ArrayList<Equip> equips, Lliga lliga){
         switch (opcioAmin){
             case 1:
@@ -635,9 +663,9 @@ public class Main {
     }
 
     /**
-     * Dona de baixa a un equip
-     * Comprova que l'equip existeix
-     * Elimina l'objecte del tipus Equip de l'array d'equips
+     * Dona de baixa a un equip:<br>
+     * - Comprova que l'equip existeix<br>
+     * - Elimina l'objecte del tipus Equip de l'array d'equips
      *
      * @param equips array d'equips
      */
@@ -663,9 +691,9 @@ public class Main {
     }
 
     /**
-     * Modifica el president d'un equip
-     * Verifica que l'equip existeix
-     * Afegeix el nou president a l'equip indicat
+     * Modifica el president d'un equip:<br>
+     * - Verifica que l'equip existeix<br>
+     * . Afegeix el nou president a l'equip indicat
      *
      * @param equips l'array d'equips
      */
@@ -687,11 +715,11 @@ public class Main {
         }
     }
 
-
     /**
-     * Destitueix l'entrenador d'un equip.
-     * Comprova que l'equip existeix
-     * Un cop destituit, l'entrenador és afegit al mercat de fitxatges
+     * Destitueix l'entrenador d'un equip:<br>
+     * - Comprova que l'equip existeix<br>
+     * - Treu l'entrenador de l'equip<br>
+     * - Un cop destituit, l'entrenador és afegit al mercat de fitxatges
      *
      * @param equips l'array d'equips
      * @param mercatFitxatges l'array de mercat de fitxatges
@@ -759,10 +787,10 @@ public class Main {
     }
 
     /**
-     * Fitxa a un jugador del mercat de fitxatges a un equip.
-     * Ensenya primer els jugadors disponibles a fitxar
-     * Comprova que l'equip existeix
-     * Afegeix el jugador a l'equip indicat
+     * Fitxa a un jugador del mercat de fitxatges a un equip:<br>
+     * - Ensenya primer els jugadors disponibles a fitxar<br>
+     * - Comprova que l'equip existeix<br>
+     * - Afegeix el jugador a l'equip indicat
      *
      * @param equips l'array d'equips
      * @param mercatFitxatges l'array de mercat de fitxatges
@@ -827,7 +855,7 @@ public class Main {
     }
 
     /**
-     * Mostra els jugadors disponibles per pantalla
+     * Mostra els jugadors disponibles per pantalla<br>
      * És ordenat segons la qualitat del jugador
      *
      * @param jugadorsDisponibles l'array dels jugadors disponibles
@@ -845,10 +873,10 @@ public class Main {
     }
 
     /**
-     * Fitxa a un entrenador/a del mercat de fitxatges a un equip.
-     * Ensenya primer els entrenadors/es disponibles a fitxar
-     * Comprova que l'equip existeix
-     * Afegeix a l'entrenador/a a l'equip indicat
+     * Fitxa a un entrenador/a del mercat de fitxatges a un equip:<br>
+     * - Ensenya primer els entrenadors/es disponibles a fitxar<br>
+     * - Comprova que l'equip existeix<br>
+     * - Afegeix a l'entrenador/a a l'equip indicat
      *
      * @param equips l'array d'equips
      * @param mercatFitxatges l'array de mercat de fitxatges
@@ -969,7 +997,7 @@ public class Main {
     }
 
     /**
-     * Mostra la informació d'un jugador d'un equip
+     * Mostra la informació d'un jugador d'un equip<br>
      * Comprova si l'equip i jugador existeix
      *
      * @param equips l'array d'equips
@@ -1001,7 +1029,7 @@ public class Main {
     }
 
     /**
-     * Busca la posició d'un jugador dins l'equip a partir del nom i el dorsal
+     * Busca la posició d'un jugador dins d'un equip a partir del nom i el dorsal
      *
      * @param eq Equip on es fa la cerca
      * @param nomJugadorTrobar Nom del jugador
@@ -1025,12 +1053,11 @@ public class Main {
     }
 
     /**
-     *
-     * Transfereix un jugador entre 2 equips
-     * Verifica que ambdós equips existeixen
-     * Demana el nom i dorsal del jugador
-     * Comprova que el jugador existeix en l'equip original
-     * Confirma i verifica que el nou dorsal no estigui ocupat en l'equip de destinació
+     * Transfereix un jugador entre 2 equips:<br>
+     * - Verifica que ambdós equips existeixen<br>
+     * - Demana el nom i dorsal del jugador<br>
+     * - Comprova que el jugador existeix en l'equip original<br>
+     * - Confirma i verifica que el nou dorsal no estigui ocupat en l'equip de destinació
      *
      * @param equips l'array d'equips
      */
@@ -1111,9 +1138,9 @@ public class Main {
     }
 
     /**
-     * Busca la posició d'un jugador dins d'un equip a partir del dorsal
-     * Recorre la llista de jugadors de l'equip
-     * Retorna la posició del primer jugador que coincideixi amb el dorsal indicat
+     * Busca la posició d'un jugador dins d'un equip a partir del dorsal<br>
+     * Recorre la llista de jugadors de l'equip<br>
+     * Retorna la posició del primer jugador que coincideixi amb el dorsal indicat<br>
      *
      * @param eq Equip on es vol buscar el jugador
      * @param dorsal Número de dorsal a cercar
@@ -1134,7 +1161,7 @@ public class Main {
     }
 
     /**
-     * Desa en un fitxer totes les dades dels equips i els seus jugadors.
+     * Desa en un fitxer totes les dades dels equips i els seus jugadors.<br>
      * Cada equip i jugador s'escriu en format de text estructurat.
      *
      * @param equips Llista d'equips a desar.
