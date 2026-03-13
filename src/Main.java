@@ -1034,7 +1034,7 @@ public class Main {
      *
      * @param equips l'array d'equips
      */
-    private static void transferirJugador(ArrayList<Equip> equips) {
+    public static void transferirJugador(ArrayList<Equip> equips) {
         Scanner sc = new Scanner(System.in);
         System.out.print("\nTRANSFERÈNCIA DE JUGADOR/A\nEquip original: ");
         String nomEquipOriginal = sc.nextLine();

@@ -49,6 +49,35 @@ class MainTest {
         assertNotSame(j1, j2);
     }
 
+    /**
+     * Comprova que, en destituir a un entrenador, l'equip no tingui cap entrenador assignat
+     */
+    @Test
+    public void destituirEntrenador() {
+        Equip eq = new Equip("FC Barcelona");
+        Entrenador e = new Entrenador("Hansi", "Flick", null, 5, 500000, 3, false);
+        eq.setEntrenador(e);
+
+        eq.destituirEntrenador();
+        assertNull(eq.getEntrenador());
+    }
+
+    /**
+     * Comprova que el mètode d'entrenament funciona
+     */
+    @Test
+    public void entrenamentJugador() {
+        Jugador j1 = new Jugador("Ter", "Stegen", null, 5, 1000000, 1, "POR", 90);
+        double qualitatOriginal = j1.getQualitat();
+        double motivacioOriginal = j1.getNivellMotivacio();
+        j1.entrenament();
+
+        assertFalse(j1.getQualitat() < qualitatOriginal); // Qualitat hagi augmentat
+        assertTrue(j1.getQualitat() >= qualitatOriginal + 0.1 && j1.getQualitat() <= qualitatOriginal + 0.3); // Qualitat hagi augmentat entre 0.1 - 0.3
+        assertTrue(j1.getNivellMotivacio() > motivacioOriginal); // Motivació ha de ser superior que la original
+        assertFalse(j1.getNivellMotivacio() >= 10); // Motivació no ha de supera 10
+    }
+
     /*
     Asserts no usats:
     - assertNull/assertNotNull
