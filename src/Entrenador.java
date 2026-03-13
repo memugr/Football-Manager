@@ -87,7 +87,6 @@ public class Entrenador extends Persona {
      * Mètode que incrementa el sou anual de l'entrenador.
      */
     public void incrementarSou () {
-        double souActual = this.souAnual;
         double souNou = this.souAnual + 1.005;
         this.souAnual = souNou;
         System.out.println("El sou de l'entrenador ha pujat. Ara el sou aunual serà: " + souNou);

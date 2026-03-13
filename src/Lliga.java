@@ -23,6 +23,16 @@ public class Lliga {
     public Lliga(String nom) { this.nom = nom;}
 
     /**
+     * Constructor de Lliga amb nom i quantitat d'equips participants.
+     * @param nom
+     * @param quantitatEquips
+     */
+    public Lliga(String nom, int quantitatEquips) {
+        this.nom = nom;
+        this.quantitatEquips = quantitatEquips;
+    }
+
+    /**
      * Constructor Lliga completa
      *
      * @param nom
