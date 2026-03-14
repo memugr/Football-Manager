@@ -90,7 +90,10 @@ class MainTest {
         double resultat = equip.getCalcularQualitatMitjanaEquip();
         assertEquals(0, resultat);
     }
-
+    /**
+     * Comprova que el càlcul de la qualitat mitjana és correcte quan
+     * l'equip té diversos jugadors amb valors de qualitat definits.
+     */
     @Test
     public void testCalcularQualitatMitjana_VarisJugadors() {
         Equip equip1 = new Equip("FC Barcelona");
@@ -107,10 +110,10 @@ class MainTest {
     }
 
     /**
-     * Comprova que la qualitat mitjana és correcta sense usar assertEquals.
+     * Comprova que la qualitat mitjana és correcta.
      */
     @Test
-    public void testQualitatMitjana_CondicioAmbAssertTrue() {
+    public void testQualitatMitjana() {
         Equip equip1 = new Equip("FC Barcelona");
 
         Jugador jugador1 = new Jugador("Marc-André", "Ter Stegen", null, 1, 12000000, 1, "POR", 90);
@@ -127,7 +130,7 @@ class MainTest {
     }
 
     /**
-     * Comprova que el sou continua sent un valor vàlid després de l'increment.
+     * Comprova que el sou s'ha incrementat.
      */
     @Test
     public void testIncrementarSou() {
