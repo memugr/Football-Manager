@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,12 +79,64 @@ class MainTest {
         assertFalse(j1.getNivellMotivacio() >= 10); // Motivació no ha de supera 10
     }
 
-    /*
-    Asserts no usats:
-    - assertNull/assertNotNull
-    - assertThrows
-    - assertTrue/assertFalse
-    - assertAll
+    /**
+     * Prova que el mètode getCalcularQualitatMitjanaEquip()
+     * retorna 0 quan la llista de jugadors està buida.
      */
+    @Test
+    public void testQualitatMitjana_LlistaBuida() {
+        Equip equip = new Equip("Barça");
+
+        double resultat = equip.getCalcularQualitatMitjanaEquip();
+        assertEquals(0, resultat);
+    }
+
+    @Test
+    public void testCalcularQualitatMitjana_VarisJugadors() {
+        Equip equip1 = new Equip("FC Barcelona");
+        Jugador jugador1 = new Jugador("Marc-André", "Ter Stegen", null, 1, 12000000, 1, "POR", 90);
+        Jugador jugador2 = new Jugador("Ronald", "Araujo", null, 4, 8000000, 2, "DFC", 88);
+        Jugador jugador3 = new Jugador("Pedri", "González", null, 8, 10000000, 3, "MC", 92);
+
+        equip1.fitxarJugador(jugador1);
+        equip1.fitxarJugador(jugador2);
+        equip1.fitxarJugador(jugador3);
+
+        double resultat = equip1.getCalcularQualitatMitjanaEquip();
+        assertEquals(90, resultat);
+    }
+
+    /**
+     * Comprova que la qualitat mitjana és correcta sense usar assertEquals.
+     */
+    @Test
+    public void testQualitatMitjana_CondicioAmbAssertTrue() {
+        Equip equip1 = new Equip("FC Barcelona");
+
+        Jugador jugador1 = new Jugador("Marc-André", "Ter Stegen", null, 1, 12000000, 1, "POR", 90);
+        Jugador jugador2 = new Jugador("Ronald", "Araujo", null, 4, 8000000, 2, "DFC", 88);
+        Jugador jugador3 = new Jugador("Pedri", "González", null, 8, 10000000, 3, "MC", 92);
+
+        equip1.fitxarJugador(jugador1);
+        equip1.fitxarJugador(jugador2);
+        equip1.fitxarJugador(jugador3);
+
+        double resultat = equip1.getCalcularQualitatMitjanaEquip();
+
+        assertTrue(resultat == 90);
+    }
+
+    /**
+     * Comprova que el sou continua sent un valor vàlid després de l'increment.
+     */
+    @Test
+    public void testIncrementarSou() {
+        Entrenador entrenador = new Entrenador("Xavi", "Hernández", new Date(), 1000000);
+        double souInicial = entrenador.getSouAnual();
+
+        entrenador.incrementarSou();
+
+        assertTrue(entrenador.getSouAnual() > souInicial);
+    }
 
 }
