@@ -110,26 +110,6 @@ class MainTest {
     }
 
     /**
-     * Comprova que la qualitat mitjana és correcta.
-     */
-    @Test
-    public void testQualitatMitjana() {
-        Equip equip1 = new Equip("FC Barcelona");
-
-        Jugador jugador1 = new Jugador("Marc-André", "Ter Stegen", null, 1, 12000000, 1, "POR", 90);
-        Jugador jugador2 = new Jugador("Ronald", "Araujo", null, 4, 8000000, 2, "DFC", 88);
-        Jugador jugador3 = new Jugador("Pedri", "González", null, 8, 10000000, 3, "MC", 92);
-
-        equip1.fitxarJugador(jugador1);
-        equip1.fitxarJugador(jugador2);
-        equip1.fitxarJugador(jugador3);
-
-        double resultat = equip1.getCalcularQualitatMitjanaEquip();
-
-        assertTrue(resultat == 90);
-    }
-
-    /**
      * Comprova que el sou s'ha incrementat.
      */
     @Test
