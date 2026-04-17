@@ -1,3 +1,8 @@
+package footballmanager;
+
+import footballmanager.classes.*;
+import footballmanager.comparators.*;
+
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,9 +20,9 @@ public class Main {
         ArrayList<Equip> equips = new ArrayList<>();
         Lliga lliga = null;
 
-        String fileNameMercat = "src/fitxers/mercat_fitxatges.txt";
+        String fileNameMercat = "src/footballmanager/data/mercat_fitxatges.txt";
         carregarFitxatges(fileNameMercat, mercatFitxatges);
-        String fileNameEquips = "src/fitxers/data_equips.txt";
+        String fileNameEquips = "src/footballmanager/data/data_equips.txt";
         carregarEquips(fileNameEquips, equips);
 
         System.out.println("--------------------\n  Football Manager\n--------------------");
@@ -1113,8 +1118,8 @@ public class Main {
 
         if (pos != -1) {
             Equip eq = equips.get(pos);
-            System.out.println("\nEquip " + nomEquipTrobar + " trobat");
-            System.out.println(eq.toString());
+            System.out.println("\nEquip " + eq.getNom() + " trobat");
+            System.out.println(eq);
             eq.mostrarJugadors();
         } else {
             System.out.println("Equip " + nomEquipTrobar + " no existeix");
@@ -1227,10 +1232,11 @@ public class Main {
             Equip eqDestinacio = equips.get(posEquipDesinacio);
 
             int posJugador = buscarPosicioJugador(eqOriginal, nomJugadorTrobar, dorsalJugadorTrobar);
+            String nomJugador = eqOriginal.getJugadors().get(posJugador).getNom() + ' ' + eqOriginal.getJugadors().get(posJugador).getCognom();
 
             if (posJugador != -1) {
-                System.out.println("\nJugador " + nomJugadorTrobar + " trobat");
-                System.out.print("Vols transferir " + nomJugadorTrobar + " (Equip original: " + eqOriginal.getNom() +
+                System.out.println("\nJugador " + nomJugador + " trobat");
+                System.out.print("Vols transferir " + nomJugador + " (Equip original: " + eqOriginal.getNom() +
                         ") a l'equip " + eqDestinacio.getNom() + "? S/N ");
 
                 char respostaUsuari = getRespostaUsuari();
@@ -1313,7 +1319,7 @@ public class Main {
      * @param equips Llista d'equips a desar.
      */
     public static void desarDadesEquips(ArrayList<Equip> equips) {
-        String fileName = "src/fitxers/data_equips.txt";
+        String fileName = "src/footballmanager/data/data_equips.txt";
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, false))) {

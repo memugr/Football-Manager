@@ -1,3 +1,7 @@
+package footballmanager.classes;
+
+import footballmanager.comparators.ComparatorJugadorPosicio;
+
 import java.util.ArrayList;
 
 /**
@@ -263,6 +267,5 @@ public class Equip {
         } else {
             System.out.println("El president " + nomPresident + " ha estat substituït per " + nouPresident);
         }
-
     }
 }

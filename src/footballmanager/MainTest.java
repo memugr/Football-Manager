@@ -1,10 +1,15 @@
+package footballmanager;
+
+import footballmanager.classes.Entrenador;
+import footballmanager.classes.Equip;
+import footballmanager.classes.Jugador;
 import org.junit.jupiter.api.Test;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Proves unitaries del Main
+ * Proves unitaries del footballmanager.Main
  *
  * @author Mei i Abigail
  * @version 1.0

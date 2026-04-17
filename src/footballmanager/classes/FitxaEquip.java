@@ -1,3 +1,5 @@
+package footballmanager.classes;
+
 /**
  * Fitxa de cada equip per guardar els partits disputats, punts i gols a favor i en contra
  *

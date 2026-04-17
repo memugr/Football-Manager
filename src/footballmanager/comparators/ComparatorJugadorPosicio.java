@@ -1,3 +1,5 @@
+package footballmanager.comparators;
+import footballmanager.classes.Jugador;
 import java.util.Comparator;
 
 /**

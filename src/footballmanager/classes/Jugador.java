@@ -1,3 +1,5 @@
+package footballmanager.classes;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.Random;

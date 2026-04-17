@@ -1,3 +1,5 @@
+package footballmanager.comparators;
+import footballmanager.classes.FitxaEquip;
 import java.util.Comparator;
 
 /**

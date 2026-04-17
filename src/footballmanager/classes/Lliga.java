@@ -1,3 +1,7 @@
+package footballmanager.classes;
+
+import footballmanager.comparators.ComparatorPerPunts;
+
 import java.util.ArrayList;
 import java.util.Random;
 
