@@ -30,7 +30,7 @@ public class Main {
         int opcioUser = getOpcioUsuari();
         mostrarOpcionsPrograma(opcioUser, mercatFitxatges, equips, lliga);
     }
-
+        //Hola otra vez
     /**
      * Gestiona les opcions del programa segons el rol
      *
