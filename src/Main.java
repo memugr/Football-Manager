@@ -633,6 +633,7 @@ public class Main {
     //----------------------------------------------------------------------------------------------------//
     //GESTOR D'EQUIPS (Mei)
 
+    //Hola, Mei!
     /**
      * Mostra el programa principal del gestor d'equips
      */
